@@ -8208,1626 +8208,6 @@
       "gt": "drawings/019/gt/rotation/L5/crop_0003.dxf"
     },
     {
-      "id": "001_crop_0000_clean",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": null,
-      "noise_level": 0,
-      "params": {},
-      "image": "drawings/001/images/clean/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_clean",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": null,
-      "noise_level": 0,
-      "params": {},
-      "image": "drawings/001/images/clean/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_clean",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": null,
-      "noise_level": 0,
-      "params": {},
-      "image": "drawings/001/images/clean/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_clean",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": null,
-      "noise_level": 0,
-      "params": {},
-      "image": "drawings/001/images/clean/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_clean",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": null,
-      "noise_level": 0,
-      "params": {},
-      "image": "drawings/001/images/clean/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_clean",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": null,
-      "noise_level": 0,
-      "params": {},
-      "image": "drawings/001/images/clean/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_gaussian_noise_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "gaussian_noise",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.05,
-        "note": "Едва заметный, качественный скан"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_gaussian_noise_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "gaussian_noise",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.05,
-        "note": "Едва заметный, качественный скан"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_gaussian_noise_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "gaussian_noise",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.05,
-        "note": "Едва заметный, качественный скан"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_gaussian_noise_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "gaussian_noise",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.05,
-        "note": "Едва заметный, качественный скан"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_gaussian_noise_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "gaussian_noise",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.05,
-        "note": "Едва заметный, качественный скан"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_gaussian_noise_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "gaussian_noise",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.05,
-        "note": "Едва заметный, качественный скан"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_gaussian_noise_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "gaussian_noise",
-      "noise_level": 2,
-      "params": {
-        "sigma": 0.1,
-        "note": "Лёгкий, хороший офисный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_gaussian_noise_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "gaussian_noise",
-      "noise_level": 2,
-      "params": {
-        "sigma": 0.1,
-        "note": "Лёгкий, хороший офисный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_gaussian_noise_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "gaussian_noise",
-      "noise_level": 2,
-      "params": {
-        "sigma": 0.1,
-        "note": "Лёгкий, хороший офисный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_gaussian_noise_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "gaussian_noise",
-      "noise_level": 2,
-      "params": {
-        "sigma": 0.1,
-        "note": "Лёгкий, хороший офисный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_gaussian_noise_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "gaussian_noise",
-      "noise_level": 2,
-      "params": {
-        "sigma": 0.1,
-        "note": "Лёгкий, хороший офисный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_gaussian_noise_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "gaussian_noise",
-      "noise_level": 2,
-      "params": {
-        "sigma": 0.1,
-        "note": "Лёгкий, хороший офисный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_gaussian_noise_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "gaussian_noise",
-      "noise_level": 3,
-      "params": {
-        "sigma": 0.15,
-        "note": "Умеренный, старый/бюджетный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_gaussian_noise_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "gaussian_noise",
-      "noise_level": 3,
-      "params": {
-        "sigma": 0.15,
-        "note": "Умеренный, старый/бюджетный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_gaussian_noise_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "gaussian_noise",
-      "noise_level": 3,
-      "params": {
-        "sigma": 0.15,
-        "note": "Умеренный, старый/бюджетный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_gaussian_noise_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "gaussian_noise",
-      "noise_level": 3,
-      "params": {
-        "sigma": 0.15,
-        "note": "Умеренный, старый/бюджетный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_gaussian_noise_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "gaussian_noise",
-      "noise_level": 3,
-      "params": {
-        "sigma": 0.15,
-        "note": "Умеренный, старый/бюджетный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_gaussian_noise_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "gaussian_noise",
-      "noise_level": 3,
-      "params": {
-        "sigma": 0.15,
-        "note": "Умеренный, старый/бюджетный сканер"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_gaussian_noise_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "gaussian_noise",
-      "noise_level": 4,
-      "params": {
-        "sigma": 0.25,
-        "note": "Сильный, заметно ухудшает восприятие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_gaussian_noise_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "gaussian_noise",
-      "noise_level": 4,
-      "params": {
-        "sigma": 0.25,
-        "note": "Сильный, заметно ухудшает восприятие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_gaussian_noise_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "gaussian_noise",
-      "noise_level": 4,
-      "params": {
-        "sigma": 0.25,
-        "note": "Сильный, заметно ухудшает восприятие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_gaussian_noise_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "gaussian_noise",
-      "noise_level": 4,
-      "params": {
-        "sigma": 0.25,
-        "note": "Сильный, заметно ухудшает восприятие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_gaussian_noise_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "gaussian_noise",
-      "noise_level": 4,
-      "params": {
-        "sigma": 0.25,
-        "note": "Сильный, заметно ухудшает восприятие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_gaussian_noise_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "gaussian_noise",
-      "noise_level": 4,
-      "params": {
-        "sigma": 0.25,
-        "note": "Сильный, заметно ухудшает восприятие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_gaussian_noise_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "gaussian_noise",
-      "noise_level": 5,
-      "params": {
-        "sigma": 0.4,
-        "note": "Очень сильный, векторизация затруднена"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_gaussian_noise_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "gaussian_noise",
-      "noise_level": 5,
-      "params": {
-        "sigma": 0.4,
-        "note": "Очень сильный, векторизация затруднена"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_gaussian_noise_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "gaussian_noise",
-      "noise_level": 5,
-      "params": {
-        "sigma": 0.4,
-        "note": "Очень сильный, векторизация затруднена"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_gaussian_noise_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "gaussian_noise",
-      "noise_level": 5,
-      "params": {
-        "sigma": 0.4,
-        "note": "Очень сильный, векторизация затруднена"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_gaussian_noise_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "gaussian_noise",
-      "noise_level": 5,
-      "params": {
-        "sigma": 0.4,
-        "note": "Очень сильный, векторизация затруднена"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_gaussian_noise_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "gaussian_noise",
-      "noise_level": 5,
-      "params": {
-        "sigma": 0.4,
-        "note": "Очень сильный, векторизация затруднена"
-      },
-      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_salt_pepper_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "salt_pepper",
-      "noise_level": 1,
-      "params": {
-        "density": 0.0001,
-        "note": "Редкие точки, почти незаметны"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_salt_pepper_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "salt_pepper",
-      "noise_level": 1,
-      "params": {
-        "density": 0.0001,
-        "note": "Редкие точки, почти незаметны"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_salt_pepper_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "salt_pepper",
-      "noise_level": 1,
-      "params": {
-        "density": 0.0001,
-        "note": "Редкие точки, почти незаметны"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_salt_pepper_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "salt_pepper",
-      "noise_level": 1,
-      "params": {
-        "density": 0.0001,
-        "note": "Редкие точки, почти незаметны"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_salt_pepper_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "salt_pepper",
-      "noise_level": 1,
-      "params": {
-        "density": 0.0001,
-        "note": "Редкие точки, почти незаметны"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_salt_pepper_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "salt_pepper",
-      "noise_level": 1,
-      "params": {
-        "density": 0.0001,
-        "note": "Редкие точки, почти незаметны"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_salt_pepper_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "salt_pepper",
-      "noise_level": 2,
-      "params": {
-        "density": 0.001,
-        "note": "Небольшое кол-во 'битых' пикселей"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_salt_pepper_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "salt_pepper",
-      "noise_level": 2,
-      "params": {
-        "density": 0.001,
-        "note": "Небольшое кол-во 'битых' пикселей"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_salt_pepper_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "salt_pepper",
-      "noise_level": 2,
-      "params": {
-        "density": 0.001,
-        "note": "Небольшое кол-во 'битых' пикселей"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_salt_pepper_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "salt_pepper",
-      "noise_level": 2,
-      "params": {
-        "density": 0.001,
-        "note": "Небольшое кол-во 'битых' пикселей"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_salt_pepper_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "salt_pepper",
-      "noise_level": 2,
-      "params": {
-        "density": 0.001,
-        "note": "Небольшое кол-во 'битых' пикселей"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_salt_pepper_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "salt_pepper",
-      "noise_level": 2,
-      "params": {
-        "density": 0.001,
-        "note": "Небольшое кол-во 'битых' пикселей"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_salt_pepper_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "salt_pepper",
-      "noise_level": 3,
-      "params": {
-        "density": 0.01,
-        "note": "Заметная 'грязь'"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_salt_pepper_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "salt_pepper",
-      "noise_level": 3,
-      "params": {
-        "density": 0.01,
-        "note": "Заметная 'грязь'"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_salt_pepper_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "salt_pepper",
-      "noise_level": 3,
-      "params": {
-        "density": 0.01,
-        "note": "Заметная 'грязь'"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_salt_pepper_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "salt_pepper",
-      "noise_level": 3,
-      "params": {
-        "density": 0.01,
-        "note": "Заметная 'грязь'"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_salt_pepper_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "salt_pepper",
-      "noise_level": 3,
-      "params": {
-        "density": 0.01,
-        "note": "Заметная 'грязь'"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_salt_pepper_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "salt_pepper",
-      "noise_level": 3,
-      "params": {
-        "density": 0.01,
-        "note": "Заметная 'грязь'"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_salt_pepper_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "salt_pepper",
-      "noise_level": 4,
-      "params": {
-        "density": 0.04,
-        "note": "Значительные помехи, грязный сканер"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_salt_pepper_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "salt_pepper",
-      "noise_level": 4,
-      "params": {
-        "density": 0.04,
-        "note": "Значительные помехи, грязный сканер"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_salt_pepper_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "salt_pepper",
-      "noise_level": 4,
-      "params": {
-        "density": 0.04,
-        "note": "Значительные помехи, грязный сканер"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_salt_pepper_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "salt_pepper",
-      "noise_level": 4,
-      "params": {
-        "density": 0.04,
-        "note": "Значительные помехи, грязный сканер"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_salt_pepper_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "salt_pepper",
-      "noise_level": 4,
-      "params": {
-        "density": 0.04,
-        "note": "Значительные помехи, грязный сканер"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_salt_pepper_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "salt_pepper",
-      "noise_level": 4,
-      "params": {
-        "density": 0.04,
-        "note": "Значительные помехи, грязный сканер"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_salt_pepper_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "salt_pepper",
-      "noise_level": 5,
-      "params": {
-        "density": 0.1,
-        "note": "Экстремальный, сильное искажение"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_salt_pepper_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "salt_pepper",
-      "noise_level": 5,
-      "params": {
-        "density": 0.1,
-        "note": "Экстремальный, сильное искажение"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_salt_pepper_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "salt_pepper",
-      "noise_level": 5,
-      "params": {
-        "density": 0.1,
-        "note": "Экстремальный, сильное искажение"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_salt_pepper_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "salt_pepper",
-      "noise_level": 5,
-      "params": {
-        "density": 0.1,
-        "note": "Экстремальный, сильное искажение"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_salt_pepper_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "salt_pepper",
-      "noise_level": 5,
-      "params": {
-        "density": 0.1,
-        "note": "Экстремальный, сильное искажение"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_salt_pepper_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "salt_pepper",
-      "noise_level": 5,
-      "params": {
-        "density": 0.1,
-        "note": "Экстремальный, сильное искажение"
-      },
-      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_gaussian_blur_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "gaussian_blur",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.5,
-        "note": "Едва заметное смягчение контуров"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_gaussian_blur_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "gaussian_blur",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.5,
-        "note": "Едва заметное смягчение контуров"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_gaussian_blur_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "gaussian_blur",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.5,
-        "note": "Едва заметное смягчение контуров"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_gaussian_blur_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "gaussian_blur",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.5,
-        "note": "Едва заметное смягчение контуров"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_gaussian_blur_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "gaussian_blur",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.5,
-        "note": "Едва заметное смягчение контуров"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_gaussian_blur_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "gaussian_blur",
-      "noise_level": 1,
-      "params": {
-        "sigma": 0.5,
-        "note": "Едва заметное смягчение контуров"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_gaussian_blur_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "gaussian_blur",
-      "noise_level": 2,
-      "params": {
-        "sigma": 1.0,
-        "note": "Лёгкое, небольшая расфокусировка"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_gaussian_blur_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "gaussian_blur",
-      "noise_level": 2,
-      "params": {
-        "sigma": 1.0,
-        "note": "Лёгкое, небольшая расфокусировка"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_gaussian_blur_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "gaussian_blur",
-      "noise_level": 2,
-      "params": {
-        "sigma": 1.0,
-        "note": "Лёгкое, небольшая расфокусировка"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_gaussian_blur_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "gaussian_blur",
-      "noise_level": 2,
-      "params": {
-        "sigma": 1.0,
-        "note": "Лёгкое, небольшая расфокусировка"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_gaussian_blur_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "gaussian_blur",
-      "noise_level": 2,
-      "params": {
-        "sigma": 1.0,
-        "note": "Лёгкое, небольшая расфокусировка"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_gaussian_blur_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "gaussian_blur",
-      "noise_level": 2,
-      "params": {
-        "sigma": 1.0,
-        "note": "Лёгкое, небольшая расфокусировка"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_gaussian_blur_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "gaussian_blur",
-      "noise_level": 3,
-      "params": {
-        "sigma": 1.5,
-        "note": "Заметное, мелкие детали теряют чёткость"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_gaussian_blur_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "gaussian_blur",
-      "noise_level": 3,
-      "params": {
-        "sigma": 1.5,
-        "note": "Заметное, мелкие детали теряют чёткость"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_gaussian_blur_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "gaussian_blur",
-      "noise_level": 3,
-      "params": {
-        "sigma": 1.5,
-        "note": "Заметное, мелкие детали теряют чёткость"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_gaussian_blur_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "gaussian_blur",
-      "noise_level": 3,
-      "params": {
-        "sigma": 1.5,
-        "note": "Заметное, мелкие детали теряют чёткость"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_gaussian_blur_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "gaussian_blur",
-      "noise_level": 3,
-      "params": {
-        "sigma": 1.5,
-        "note": "Заметное, мелкие детали теряют чёткость"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_gaussian_blur_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "gaussian_blur",
-      "noise_level": 3,
-      "params": {
-        "sigma": 1.5,
-        "note": "Заметное, мелкие детали теряют чёткость"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_gaussian_blur_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "gaussian_blur",
-      "noise_level": 4,
-      "params": {
-        "sigma": 2.0,
-        "note": "Сильное, контуры нечёткие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_gaussian_blur_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "gaussian_blur",
-      "noise_level": 4,
-      "params": {
-        "sigma": 2.0,
-        "note": "Сильное, контуры нечёткие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_gaussian_blur_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "gaussian_blur",
-      "noise_level": 4,
-      "params": {
-        "sigma": 2.0,
-        "note": "Сильное, контуры нечёткие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_gaussian_blur_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "gaussian_blur",
-      "noise_level": 4,
-      "params": {
-        "sigma": 2.0,
-        "note": "Сильное, контуры нечёткие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_gaussian_blur_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "gaussian_blur",
-      "noise_level": 4,
-      "params": {
-        "sigma": 2.0,
-        "note": "Сильное, контуры нечёткие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_gaussian_blur_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "gaussian_blur",
-      "noise_level": 4,
-      "params": {
-        "sigma": 2.0,
-        "note": "Сильное, контуры нечёткие"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_gaussian_blur_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "gaussian_blur",
-      "noise_level": 5,
-      "params": {
-        "sigma": 3.0,
-        "note": "Очень сильное, мелкие элементы неразличимы"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0000.tiff",
-      "gt": "drawings/001/gt/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_gaussian_blur_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "gaussian_blur",
-      "noise_level": 5,
-      "params": {
-        "sigma": 3.0,
-        "note": "Очень сильное, мелкие элементы неразличимы"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0001.tiff",
-      "gt": "drawings/001/gt/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_gaussian_blur_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "gaussian_blur",
-      "noise_level": 5,
-      "params": {
-        "sigma": 3.0,
-        "note": "Очень сильное, мелкие элементы неразличимы"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0002.tiff",
-      "gt": "drawings/001/gt/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_gaussian_blur_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "gaussian_blur",
-      "noise_level": 5,
-      "params": {
-        "sigma": 3.0,
-        "note": "Очень сильное, мелкие элементы неразличимы"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0003.tiff",
-      "gt": "drawings/001/gt/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_gaussian_blur_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "gaussian_blur",
-      "noise_level": 5,
-      "params": {
-        "sigma": 3.0,
-        "note": "Очень сильное, мелкие элементы неразличимы"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0004.tiff",
-      "gt": "drawings/001/gt/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_gaussian_blur_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "gaussian_blur",
-      "noise_level": 5,
-      "params": {
-        "sigma": 3.0,
-        "note": "Очень сильное, мелкие элементы неразличимы"
-      },
-      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0005.tiff",
-      "gt": "drawings/001/gt/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_rotation_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "rotation",
-      "noise_level": 1,
-      "params": {
-        "angle_deg": 0.5,
-        "note": "Небольшой перекос, ручное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L1/crop_0000.tiff",
-      "gt": "drawings/001/gt/rotation/L1/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_rotation_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "rotation",
-      "noise_level": 1,
-      "params": {
-        "angle_deg": 0.5,
-        "note": "Небольшой перекос, ручное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L1/crop_0001.tiff",
-      "gt": "drawings/001/gt/rotation/L1/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_rotation_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "rotation",
-      "noise_level": 1,
-      "params": {
-        "angle_deg": 0.5,
-        "note": "Небольшой перекос, ручное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L1/crop_0002.tiff",
-      "gt": "drawings/001/gt/rotation/L1/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_rotation_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "rotation",
-      "noise_level": 1,
-      "params": {
-        "angle_deg": 0.5,
-        "note": "Небольшой перекос, ручное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L1/crop_0003.tiff",
-      "gt": "drawings/001/gt/rotation/L1/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_rotation_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "rotation",
-      "noise_level": 1,
-      "params": {
-        "angle_deg": 0.5,
-        "note": "Небольшой перекос, ручное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L1/crop_0004.tiff",
-      "gt": "drawings/001/gt/rotation/L1/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_rotation_L1",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "rotation",
-      "noise_level": 1,
-      "params": {
-        "angle_deg": 0.5,
-        "note": "Небольшой перекос, ручное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L1/crop_0005.tiff",
-      "gt": "drawings/001/gt/rotation/L1/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_rotation_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "rotation",
-      "noise_level": 2,
-      "params": {
-        "angle_deg": 1.0,
-        "note": "Лёгкий поворот, заметен при измерении"
-      },
-      "image": "drawings/001/images/noisy/rotation_L2/crop_0000.tiff",
-      "gt": "drawings/001/gt/rotation/L2/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_rotation_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "rotation",
-      "noise_level": 2,
-      "params": {
-        "angle_deg": 1.0,
-        "note": "Лёгкий поворот, заметен при измерении"
-      },
-      "image": "drawings/001/images/noisy/rotation_L2/crop_0001.tiff",
-      "gt": "drawings/001/gt/rotation/L2/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_rotation_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "rotation",
-      "noise_level": 2,
-      "params": {
-        "angle_deg": 1.0,
-        "note": "Лёгкий поворот, заметен при измерении"
-      },
-      "image": "drawings/001/images/noisy/rotation_L2/crop_0002.tiff",
-      "gt": "drawings/001/gt/rotation/L2/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_rotation_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "rotation",
-      "noise_level": 2,
-      "params": {
-        "angle_deg": 1.0,
-        "note": "Лёгкий поворот, заметен при измерении"
-      },
-      "image": "drawings/001/images/noisy/rotation_L2/crop_0003.tiff",
-      "gt": "drawings/001/gt/rotation/L2/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_rotation_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "rotation",
-      "noise_level": 2,
-      "params": {
-        "angle_deg": 1.0,
-        "note": "Лёгкий поворот, заметен при измерении"
-      },
-      "image": "drawings/001/images/noisy/rotation_L2/crop_0004.tiff",
-      "gt": "drawings/001/gt/rotation/L2/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_rotation_L2",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "rotation",
-      "noise_level": 2,
-      "params": {
-        "angle_deg": 1.0,
-        "note": "Лёгкий поворот, заметен при измерении"
-      },
-      "image": "drawings/001/images/noisy/rotation_L2/crop_0005.tiff",
-      "gt": "drawings/001/gt/rotation/L2/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_rotation_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "rotation",
-      "noise_level": 3,
-      "params": {
-        "angle_deg": 2.0,
-        "note": "Умеренный, артефакты при бинаризации"
-      },
-      "image": "drawings/001/images/noisy/rotation_L3/crop_0000.tiff",
-      "gt": "drawings/001/gt/rotation/L3/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_rotation_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "rotation",
-      "noise_level": 3,
-      "params": {
-        "angle_deg": 2.0,
-        "note": "Умеренный, артефакты при бинаризации"
-      },
-      "image": "drawings/001/images/noisy/rotation_L3/crop_0001.tiff",
-      "gt": "drawings/001/gt/rotation/L3/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_rotation_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "rotation",
-      "noise_level": 3,
-      "params": {
-        "angle_deg": 2.0,
-        "note": "Умеренный, артефакты при бинаризации"
-      },
-      "image": "drawings/001/images/noisy/rotation_L3/crop_0002.tiff",
-      "gt": "drawings/001/gt/rotation/L3/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_rotation_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "rotation",
-      "noise_level": 3,
-      "params": {
-        "angle_deg": 2.0,
-        "note": "Умеренный, артефакты при бинаризации"
-      },
-      "image": "drawings/001/images/noisy/rotation_L3/crop_0003.tiff",
-      "gt": "drawings/001/gt/rotation/L3/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_rotation_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "rotation",
-      "noise_level": 3,
-      "params": {
-        "angle_deg": 2.0,
-        "note": "Умеренный, артефакты при бинаризации"
-      },
-      "image": "drawings/001/images/noisy/rotation_L3/crop_0004.tiff",
-      "gt": "drawings/001/gt/rotation/L3/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_rotation_L3",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "rotation",
-      "noise_level": 3,
-      "params": {
-        "angle_deg": 2.0,
-        "note": "Умеренный, артефакты при бинаризации"
-      },
-      "image": "drawings/001/images/noisy/rotation_L3/crop_0005.tiff",
-      "gt": "drawings/001/gt/rotation/L3/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_rotation_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "rotation",
-      "noise_level": 4,
-      "params": {
-        "angle_deg": 3.0,
-        "note": "Сильный перекос, небрежное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L4/crop_0000.tiff",
-      "gt": "drawings/001/gt/rotation/L4/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_rotation_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "rotation",
-      "noise_level": 4,
-      "params": {
-        "angle_deg": 3.0,
-        "note": "Сильный перекос, небрежное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L4/crop_0001.tiff",
-      "gt": "drawings/001/gt/rotation/L4/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_rotation_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "rotation",
-      "noise_level": 4,
-      "params": {
-        "angle_deg": 3.0,
-        "note": "Сильный перекос, небрежное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L4/crop_0002.tiff",
-      "gt": "drawings/001/gt/rotation/L4/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_rotation_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "rotation",
-      "noise_level": 4,
-      "params": {
-        "angle_deg": 3.0,
-        "note": "Сильный перекос, небрежное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L4/crop_0003.tiff",
-      "gt": "drawings/001/gt/rotation/L4/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_rotation_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "rotation",
-      "noise_level": 4,
-      "params": {
-        "angle_deg": 3.0,
-        "note": "Сильный перекос, небрежное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L4/crop_0004.tiff",
-      "gt": "drawings/001/gt/rotation/L4/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_rotation_L4",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "rotation",
-      "noise_level": 4,
-      "params": {
-        "angle_deg": 3.0,
-        "note": "Сильный перекос, небрежное сканирование"
-      },
-      "image": "drawings/001/images/noisy/rotation_L4/crop_0005.tiff",
-      "gt": "drawings/001/gt/rotation/L4/crop_0005.dxf"
-    },
-    {
-      "id": "001_crop_0000_rotation_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0000",
-      "noise_type": "rotation",
-      "noise_level": 5,
-      "params": {
-        "angle_deg": 5.0,
-        "note": "Экстремальный, ортогональность нарушена"
-      },
-      "image": "drawings/001/images/noisy/rotation_L5/crop_0000.tiff",
-      "gt": "drawings/001/gt/rotation/L5/crop_0000.dxf"
-    },
-    {
-      "id": "001_crop_0001_rotation_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0001",
-      "noise_type": "rotation",
-      "noise_level": 5,
-      "params": {
-        "angle_deg": 5.0,
-        "note": "Экстремальный, ортогональность нарушена"
-      },
-      "image": "drawings/001/images/noisy/rotation_L5/crop_0001.tiff",
-      "gt": "drawings/001/gt/rotation/L5/crop_0001.dxf"
-    },
-    {
-      "id": "001_crop_0002_rotation_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0002",
-      "noise_type": "rotation",
-      "noise_level": 5,
-      "params": {
-        "angle_deg": 5.0,
-        "note": "Экстремальный, ортогональность нарушена"
-      },
-      "image": "drawings/001/images/noisy/rotation_L5/crop_0002.tiff",
-      "gt": "drawings/001/gt/rotation/L5/crop_0002.dxf"
-    },
-    {
-      "id": "001_crop_0003_rotation_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0003",
-      "noise_type": "rotation",
-      "noise_level": 5,
-      "params": {
-        "angle_deg": 5.0,
-        "note": "Экстремальный, ортогональность нарушена"
-      },
-      "image": "drawings/001/images/noisy/rotation_L5/crop_0003.tiff",
-      "gt": "drawings/001/gt/rotation/L5/crop_0003.dxf"
-    },
-    {
-      "id": "001_crop_0004_rotation_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0004",
-      "noise_type": "rotation",
-      "noise_level": 5,
-      "params": {
-        "angle_deg": 5.0,
-        "note": "Экстремальный, ортогональность нарушена"
-      },
-      "image": "drawings/001/images/noisy/rotation_L5/crop_0004.tiff",
-      "gt": "drawings/001/gt/rotation/L5/crop_0004.dxf"
-    },
-    {
-      "id": "001_crop_0005_rotation_L5",
-      "drawing_id": "001",
-      "crop_id": "crop_0005",
-      "noise_type": "rotation",
-      "noise_level": 5,
-      "params": {
-        "angle_deg": 5.0,
-        "note": "Экстремальный, ортогональность нарушена"
-      },
-      "image": "drawings/001/images/noisy/rotation_L5/crop_0005.tiff",
-      "gt": "drawings/001/gt/rotation/L5/crop_0005.dxf"
-    },
-    {
       "id": "002_crop_0000_clean",
       "drawing_id": "002",
       "crop_id": "crop_0000",
@@ -29806,6 +28186,1356 @@
       },
       "image": "drawings/020/images/noisy/rotation_L5/crop_0007.tiff",
       "gt": "drawings/020/gt/rotation/L5/crop_0007.dxf"
+    },
+    {
+      "id": "001_crop_0000_clean",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": null,
+      "noise_level": 0,
+      "params": {},
+      "image": "drawings/001/images/clean/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_clean",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": null,
+      "noise_level": 0,
+      "params": {},
+      "image": "drawings/001/images/clean/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_clean",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": null,
+      "noise_level": 0,
+      "params": {},
+      "image": "drawings/001/images/clean/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_clean",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": null,
+      "noise_level": 0,
+      "params": {},
+      "image": "drawings/001/images/clean/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_clean",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": null,
+      "noise_level": 0,
+      "params": {},
+      "image": "drawings/001/images/clean/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_gaussian_noise_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "gaussian_noise",
+      "noise_level": 1,
+      "params": {
+        "sigma": 0.05,
+        "note": "Едва заметный, качественный скан"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_gaussian_noise_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "gaussian_noise",
+      "noise_level": 1,
+      "params": {
+        "sigma": 0.05,
+        "note": "Едва заметный, качественный скан"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_gaussian_noise_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "gaussian_noise",
+      "noise_level": 1,
+      "params": {
+        "sigma": 0.05,
+        "note": "Едва заметный, качественный скан"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_gaussian_noise_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "gaussian_noise",
+      "noise_level": 1,
+      "params": {
+        "sigma": 0.05,
+        "note": "Едва заметный, качественный скан"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_gaussian_noise_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "gaussian_noise",
+      "noise_level": 1,
+      "params": {
+        "sigma": 0.05,
+        "note": "Едва заметный, качественный скан"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L1/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_gaussian_noise_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "gaussian_noise",
+      "noise_level": 2,
+      "params": {
+        "sigma": 0.1,
+        "note": "Лёгкий, хороший офисный сканер"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_gaussian_noise_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "gaussian_noise",
+      "noise_level": 2,
+      "params": {
+        "sigma": 0.1,
+        "note": "Лёгкий, хороший офисный сканер"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_gaussian_noise_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "gaussian_noise",
+      "noise_level": 2,
+      "params": {
+        "sigma": 0.1,
+        "note": "Лёгкий, хороший офисный сканер"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_gaussian_noise_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "gaussian_noise",
+      "noise_level": 2,
+      "params": {
+        "sigma": 0.1,
+        "note": "Лёгкий, хороший офисный сканер"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_gaussian_noise_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "gaussian_noise",
+      "noise_level": 2,
+      "params": {
+        "sigma": 0.1,
+        "note": "Лёгкий, хороший офисный сканер"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L2/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_gaussian_noise_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "gaussian_noise",
+      "noise_level": 3,
+      "params": {
+        "sigma": 0.15,
+        "note": "Умеренный, старый/бюджетный сканер"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_gaussian_noise_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "gaussian_noise",
+      "noise_level": 3,
+      "params": {
+        "sigma": 0.15,
+        "note": "Умеренный, старый/бюджетный сканер"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_gaussian_noise_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "gaussian_noise",
+      "noise_level": 3,
+      "params": {
+        "sigma": 0.15,
+        "note": "Умеренный, старый/бюджетный сканер"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_gaussian_noise_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "gaussian_noise",
+      "noise_level": 3,
+      "params": {
+        "sigma": 0.15,
+        "note": "Умеренный, старый/бюджетный сканер"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_gaussian_noise_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "gaussian_noise",
+      "noise_level": 3,
+      "params": {
+        "sigma": 0.15,
+        "note": "Умеренный, старый/бюджетный сканер"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L3/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_gaussian_noise_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "gaussian_noise",
+      "noise_level": 4,
+      "params": {
+        "sigma": 0.25,
+        "note": "Сильный, заметно ухудшает восприятие"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_gaussian_noise_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "gaussian_noise",
+      "noise_level": 4,
+      "params": {
+        "sigma": 0.25,
+        "note": "Сильный, заметно ухудшает восприятие"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_gaussian_noise_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "gaussian_noise",
+      "noise_level": 4,
+      "params": {
+        "sigma": 0.25,
+        "note": "Сильный, заметно ухудшает восприятие"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_gaussian_noise_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "gaussian_noise",
+      "noise_level": 4,
+      "params": {
+        "sigma": 0.25,
+        "note": "Сильный, заметно ухудшает восприятие"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_gaussian_noise_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "gaussian_noise",
+      "noise_level": 4,
+      "params": {
+        "sigma": 0.25,
+        "note": "Сильный, заметно ухудшает восприятие"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L4/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_gaussian_noise_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "gaussian_noise",
+      "noise_level": 5,
+      "params": {
+        "sigma": 0.4,
+        "note": "Очень сильный, векторизация затруднена"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_gaussian_noise_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "gaussian_noise",
+      "noise_level": 5,
+      "params": {
+        "sigma": 0.4,
+        "note": "Очень сильный, векторизация затруднена"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_gaussian_noise_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "gaussian_noise",
+      "noise_level": 5,
+      "params": {
+        "sigma": 0.4,
+        "note": "Очень сильный, векторизация затруднена"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_gaussian_noise_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "gaussian_noise",
+      "noise_level": 5,
+      "params": {
+        "sigma": 0.4,
+        "note": "Очень сильный, векторизация затруднена"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_gaussian_noise_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "gaussian_noise",
+      "noise_level": 5,
+      "params": {
+        "sigma": 0.4,
+        "note": "Очень сильный, векторизация затруднена"
+      },
+      "image": "drawings/001/images/noisy/gaussian_noise_L5/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_salt_pepper_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "salt_pepper",
+      "noise_level": 1,
+      "params": {
+        "density": 0.0001,
+        "note": "Редкие точки, почти незаметны"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_salt_pepper_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "salt_pepper",
+      "noise_level": 1,
+      "params": {
+        "density": 0.0001,
+        "note": "Редкие точки, почти незаметны"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_salt_pepper_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "salt_pepper",
+      "noise_level": 1,
+      "params": {
+        "density": 0.0001,
+        "note": "Редкие точки, почти незаметны"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_salt_pepper_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "salt_pepper",
+      "noise_level": 1,
+      "params": {
+        "density": 0.0001,
+        "note": "Редкие точки, почти незаметны"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_salt_pepper_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "salt_pepper",
+      "noise_level": 1,
+      "params": {
+        "density": 0.0001,
+        "note": "Редкие точки, почти незаметны"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L1/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_salt_pepper_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "salt_pepper",
+      "noise_level": 2,
+      "params": {
+        "density": 0.001,
+        "note": "Небольшое кол-во 'битых' пикселей"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_salt_pepper_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "salt_pepper",
+      "noise_level": 2,
+      "params": {
+        "density": 0.001,
+        "note": "Небольшое кол-во 'битых' пикселей"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_salt_pepper_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "salt_pepper",
+      "noise_level": 2,
+      "params": {
+        "density": 0.001,
+        "note": "Небольшое кол-во 'битых' пикселей"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_salt_pepper_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "salt_pepper",
+      "noise_level": 2,
+      "params": {
+        "density": 0.001,
+        "note": "Небольшое кол-во 'битых' пикселей"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_salt_pepper_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "salt_pepper",
+      "noise_level": 2,
+      "params": {
+        "density": 0.001,
+        "note": "Небольшое кол-во 'битых' пикселей"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L2/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_salt_pepper_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "salt_pepper",
+      "noise_level": 3,
+      "params": {
+        "density": 0.01,
+        "note": "Заметная 'грязь'"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_salt_pepper_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "salt_pepper",
+      "noise_level": 3,
+      "params": {
+        "density": 0.01,
+        "note": "Заметная 'грязь'"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_salt_pepper_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "salt_pepper",
+      "noise_level": 3,
+      "params": {
+        "density": 0.01,
+        "note": "Заметная 'грязь'"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_salt_pepper_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "salt_pepper",
+      "noise_level": 3,
+      "params": {
+        "density": 0.01,
+        "note": "Заметная 'грязь'"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_salt_pepper_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "salt_pepper",
+      "noise_level": 3,
+      "params": {
+        "density": 0.01,
+        "note": "Заметная 'грязь'"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L3/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_salt_pepper_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "salt_pepper",
+      "noise_level": 4,
+      "params": {
+        "density": 0.04,
+        "note": "Значительные помехи, грязный сканер"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_salt_pepper_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "salt_pepper",
+      "noise_level": 4,
+      "params": {
+        "density": 0.04,
+        "note": "Значительные помехи, грязный сканер"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_salt_pepper_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "salt_pepper",
+      "noise_level": 4,
+      "params": {
+        "density": 0.04,
+        "note": "Значительные помехи, грязный сканер"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_salt_pepper_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "salt_pepper",
+      "noise_level": 4,
+      "params": {
+        "density": 0.04,
+        "note": "Значительные помехи, грязный сканер"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_salt_pepper_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "salt_pepper",
+      "noise_level": 4,
+      "params": {
+        "density": 0.04,
+        "note": "Значительные помехи, грязный сканер"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L4/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_salt_pepper_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "salt_pepper",
+      "noise_level": 5,
+      "params": {
+        "density": 0.1,
+        "note": "Экстремальный, сильное искажение"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_salt_pepper_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "salt_pepper",
+      "noise_level": 5,
+      "params": {
+        "density": 0.1,
+        "note": "Экстремальный, сильное искажение"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_salt_pepper_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "salt_pepper",
+      "noise_level": 5,
+      "params": {
+        "density": 0.1,
+        "note": "Экстремальный, сильное искажение"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_salt_pepper_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "salt_pepper",
+      "noise_level": 5,
+      "params": {
+        "density": 0.1,
+        "note": "Экстремальный, сильное искажение"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_salt_pepper_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "salt_pepper",
+      "noise_level": 5,
+      "params": {
+        "density": 0.1,
+        "note": "Экстремальный, сильное искажение"
+      },
+      "image": "drawings/001/images/noisy/salt_pepper_L5/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_gaussian_blur_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "gaussian_blur",
+      "noise_level": 1,
+      "params": {
+        "sigma": 0.5,
+        "note": "Едва заметное смягчение контуров"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_gaussian_blur_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "gaussian_blur",
+      "noise_level": 1,
+      "params": {
+        "sigma": 0.5,
+        "note": "Едва заметное смягчение контуров"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_gaussian_blur_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "gaussian_blur",
+      "noise_level": 1,
+      "params": {
+        "sigma": 0.5,
+        "note": "Едва заметное смягчение контуров"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_gaussian_blur_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "gaussian_blur",
+      "noise_level": 1,
+      "params": {
+        "sigma": 0.5,
+        "note": "Едва заметное смягчение контуров"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_gaussian_blur_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "gaussian_blur",
+      "noise_level": 1,
+      "params": {
+        "sigma": 0.5,
+        "note": "Едва заметное смягчение контуров"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L1/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_gaussian_blur_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "gaussian_blur",
+      "noise_level": 2,
+      "params": {
+        "sigma": 1.0,
+        "note": "Лёгкое, небольшая расфокусировка"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_gaussian_blur_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "gaussian_blur",
+      "noise_level": 2,
+      "params": {
+        "sigma": 1.0,
+        "note": "Лёгкое, небольшая расфокусировка"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_gaussian_blur_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "gaussian_blur",
+      "noise_level": 2,
+      "params": {
+        "sigma": 1.0,
+        "note": "Лёгкое, небольшая расфокусировка"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_gaussian_blur_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "gaussian_blur",
+      "noise_level": 2,
+      "params": {
+        "sigma": 1.0,
+        "note": "Лёгкое, небольшая расфокусировка"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_gaussian_blur_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "gaussian_blur",
+      "noise_level": 2,
+      "params": {
+        "sigma": 1.0,
+        "note": "Лёгкое, небольшая расфокусировка"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L2/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_gaussian_blur_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "gaussian_blur",
+      "noise_level": 3,
+      "params": {
+        "sigma": 1.5,
+        "note": "Заметное, мелкие детали теряют чёткость"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_gaussian_blur_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "gaussian_blur",
+      "noise_level": 3,
+      "params": {
+        "sigma": 1.5,
+        "note": "Заметное, мелкие детали теряют чёткость"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_gaussian_blur_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "gaussian_blur",
+      "noise_level": 3,
+      "params": {
+        "sigma": 1.5,
+        "note": "Заметное, мелкие детали теряют чёткость"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_gaussian_blur_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "gaussian_blur",
+      "noise_level": 3,
+      "params": {
+        "sigma": 1.5,
+        "note": "Заметное, мелкие детали теряют чёткость"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_gaussian_blur_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "gaussian_blur",
+      "noise_level": 3,
+      "params": {
+        "sigma": 1.5,
+        "note": "Заметное, мелкие детали теряют чёткость"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L3/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_gaussian_blur_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "gaussian_blur",
+      "noise_level": 4,
+      "params": {
+        "sigma": 2.0,
+        "note": "Сильное, контуры нечёткие"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_gaussian_blur_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "gaussian_blur",
+      "noise_level": 4,
+      "params": {
+        "sigma": 2.0,
+        "note": "Сильное, контуры нечёткие"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_gaussian_blur_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "gaussian_blur",
+      "noise_level": 4,
+      "params": {
+        "sigma": 2.0,
+        "note": "Сильное, контуры нечёткие"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_gaussian_blur_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "gaussian_blur",
+      "noise_level": 4,
+      "params": {
+        "sigma": 2.0,
+        "note": "Сильное, контуры нечёткие"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_gaussian_blur_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "gaussian_blur",
+      "noise_level": 4,
+      "params": {
+        "sigma": 2.0,
+        "note": "Сильное, контуры нечёткие"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L4/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_gaussian_blur_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "gaussian_blur",
+      "noise_level": 5,
+      "params": {
+        "sigma": 3.0,
+        "note": "Очень сильное, мелкие элементы неразличимы"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0000.tiff",
+      "gt": "drawings/001/gt/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_gaussian_blur_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "gaussian_blur",
+      "noise_level": 5,
+      "params": {
+        "sigma": 3.0,
+        "note": "Очень сильное, мелкие элементы неразличимы"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0001.tiff",
+      "gt": "drawings/001/gt/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_gaussian_blur_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "gaussian_blur",
+      "noise_level": 5,
+      "params": {
+        "sigma": 3.0,
+        "note": "Очень сильное, мелкие элементы неразличимы"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0002.tiff",
+      "gt": "drawings/001/gt/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_gaussian_blur_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "gaussian_blur",
+      "noise_level": 5,
+      "params": {
+        "sigma": 3.0,
+        "note": "Очень сильное, мелкие элементы неразличимы"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0003.tiff",
+      "gt": "drawings/001/gt/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_gaussian_blur_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "gaussian_blur",
+      "noise_level": 5,
+      "params": {
+        "sigma": 3.0,
+        "note": "Очень сильное, мелкие элементы неразличимы"
+      },
+      "image": "drawings/001/images/noisy/gaussian_blur_L5/crop_0004.tiff",
+      "gt": "drawings/001/gt/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_rotation_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "rotation",
+      "noise_level": 1,
+      "params": {
+        "angle_deg": 0.5,
+        "note": "Небольшой перекос, ручное сканирование"
+      },
+      "image": "drawings/001/images/noisy/rotation_L1/crop_0000.tiff",
+      "gt": "drawings/001/gt/rotation/L1/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_rotation_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "rotation",
+      "noise_level": 1,
+      "params": {
+        "angle_deg": 0.5,
+        "note": "Небольшой перекос, ручное сканирование"
+      },
+      "image": "drawings/001/images/noisy/rotation_L1/crop_0001.tiff",
+      "gt": "drawings/001/gt/rotation/L1/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_rotation_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "rotation",
+      "noise_level": 1,
+      "params": {
+        "angle_deg": 0.5,
+        "note": "Небольшой перекос, ручное сканирование"
+      },
+      "image": "drawings/001/images/noisy/rotation_L1/crop_0002.tiff",
+      "gt": "drawings/001/gt/rotation/L1/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_rotation_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "rotation",
+      "noise_level": 1,
+      "params": {
+        "angle_deg": 0.5,
+        "note": "Небольшой перекос, ручное сканирование"
+      },
+      "image": "drawings/001/images/noisy/rotation_L1/crop_0003.tiff",
+      "gt": "drawings/001/gt/rotation/L1/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_rotation_L1",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "rotation",
+      "noise_level": 1,
+      "params": {
+        "angle_deg": 0.5,
+        "note": "Небольшой перекос, ручное сканирование"
+      },
+      "image": "drawings/001/images/noisy/rotation_L1/crop_0004.tiff",
+      "gt": "drawings/001/gt/rotation/L1/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_rotation_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "rotation",
+      "noise_level": 2,
+      "params": {
+        "angle_deg": 1.0,
+        "note": "Лёгкий поворот, заметен при измерении"
+      },
+      "image": "drawings/001/images/noisy/rotation_L2/crop_0000.tiff",
+      "gt": "drawings/001/gt/rotation/L2/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_rotation_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "rotation",
+      "noise_level": 2,
+      "params": {
+        "angle_deg": 1.0,
+        "note": "Лёгкий поворот, заметен при измерении"
+      },
+      "image": "drawings/001/images/noisy/rotation_L2/crop_0001.tiff",
+      "gt": "drawings/001/gt/rotation/L2/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_rotation_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "rotation",
+      "noise_level": 2,
+      "params": {
+        "angle_deg": 1.0,
+        "note": "Лёгкий поворот, заметен при измерении"
+      },
+      "image": "drawings/001/images/noisy/rotation_L2/crop_0002.tiff",
+      "gt": "drawings/001/gt/rotation/L2/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_rotation_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "rotation",
+      "noise_level": 2,
+      "params": {
+        "angle_deg": 1.0,
+        "note": "Лёгкий поворот, заметен при измерении"
+      },
+      "image": "drawings/001/images/noisy/rotation_L2/crop_0003.tiff",
+      "gt": "drawings/001/gt/rotation/L2/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_rotation_L2",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "rotation",
+      "noise_level": 2,
+      "params": {
+        "angle_deg": 1.0,
+        "note": "Лёгкий поворот, заметен при измерении"
+      },
+      "image": "drawings/001/images/noisy/rotation_L2/crop_0004.tiff",
+      "gt": "drawings/001/gt/rotation/L2/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_rotation_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "rotation",
+      "noise_level": 3,
+      "params": {
+        "angle_deg": 2.0,
+        "note": "Умеренный, артефакты при бинаризации"
+      },
+      "image": "drawings/001/images/noisy/rotation_L3/crop_0000.tiff",
+      "gt": "drawings/001/gt/rotation/L3/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_rotation_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "rotation",
+      "noise_level": 3,
+      "params": {
+        "angle_deg": 2.0,
+        "note": "Умеренный, артефакты при бинаризации"
+      },
+      "image": "drawings/001/images/noisy/rotation_L3/crop_0001.tiff",
+      "gt": "drawings/001/gt/rotation/L3/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_rotation_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "rotation",
+      "noise_level": 3,
+      "params": {
+        "angle_deg": 2.0,
+        "note": "Умеренный, артефакты при бинаризации"
+      },
+      "image": "drawings/001/images/noisy/rotation_L3/crop_0002.tiff",
+      "gt": "drawings/001/gt/rotation/L3/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_rotation_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "rotation",
+      "noise_level": 3,
+      "params": {
+        "angle_deg": 2.0,
+        "note": "Умеренный, артефакты при бинаризации"
+      },
+      "image": "drawings/001/images/noisy/rotation_L3/crop_0003.tiff",
+      "gt": "drawings/001/gt/rotation/L3/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_rotation_L3",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "rotation",
+      "noise_level": 3,
+      "params": {
+        "angle_deg": 2.0,
+        "note": "Умеренный, артефакты при бинаризации"
+      },
+      "image": "drawings/001/images/noisy/rotation_L3/crop_0004.tiff",
+      "gt": "drawings/001/gt/rotation/L3/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_rotation_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "rotation",
+      "noise_level": 4,
+      "params": {
+        "angle_deg": 3.0,
+        "note": "Сильный перекос, небрежное сканирование"
+      },
+      "image": "drawings/001/images/noisy/rotation_L4/crop_0000.tiff",
+      "gt": "drawings/001/gt/rotation/L4/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_rotation_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "rotation",
+      "noise_level": 4,
+      "params": {
+        "angle_deg": 3.0,
+        "note": "Сильный перекос, небрежное сканирование"
+      },
+      "image": "drawings/001/images/noisy/rotation_L4/crop_0001.tiff",
+      "gt": "drawings/001/gt/rotation/L4/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_rotation_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "rotation",
+      "noise_level": 4,
+      "params": {
+        "angle_deg": 3.0,
+        "note": "Сильный перекос, небрежное сканирование"
+      },
+      "image": "drawings/001/images/noisy/rotation_L4/crop_0002.tiff",
+      "gt": "drawings/001/gt/rotation/L4/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_rotation_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "rotation",
+      "noise_level": 4,
+      "params": {
+        "angle_deg": 3.0,
+        "note": "Сильный перекос, небрежное сканирование"
+      },
+      "image": "drawings/001/images/noisy/rotation_L4/crop_0003.tiff",
+      "gt": "drawings/001/gt/rotation/L4/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_rotation_L4",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "rotation",
+      "noise_level": 4,
+      "params": {
+        "angle_deg": 3.0,
+        "note": "Сильный перекос, небрежное сканирование"
+      },
+      "image": "drawings/001/images/noisy/rotation_L4/crop_0004.tiff",
+      "gt": "drawings/001/gt/rotation/L4/crop_0004.dxf"
+    },
+    {
+      "id": "001_crop_0000_rotation_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0000",
+      "noise_type": "rotation",
+      "noise_level": 5,
+      "params": {
+        "angle_deg": 5.0,
+        "note": "Экстремальный, ортогональность нарушена"
+      },
+      "image": "drawings/001/images/noisy/rotation_L5/crop_0000.tiff",
+      "gt": "drawings/001/gt/rotation/L5/crop_0000.dxf"
+    },
+    {
+      "id": "001_crop_0001_rotation_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0001",
+      "noise_type": "rotation",
+      "noise_level": 5,
+      "params": {
+        "angle_deg": 5.0,
+        "note": "Экстремальный, ортогональность нарушена"
+      },
+      "image": "drawings/001/images/noisy/rotation_L5/crop_0001.tiff",
+      "gt": "drawings/001/gt/rotation/L5/crop_0001.dxf"
+    },
+    {
+      "id": "001_crop_0002_rotation_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0002",
+      "noise_type": "rotation",
+      "noise_level": 5,
+      "params": {
+        "angle_deg": 5.0,
+        "note": "Экстремальный, ортогональность нарушена"
+      },
+      "image": "drawings/001/images/noisy/rotation_L5/crop_0002.tiff",
+      "gt": "drawings/001/gt/rotation/L5/crop_0002.dxf"
+    },
+    {
+      "id": "001_crop_0003_rotation_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0003",
+      "noise_type": "rotation",
+      "noise_level": 5,
+      "params": {
+        "angle_deg": 5.0,
+        "note": "Экстремальный, ортогональность нарушена"
+      },
+      "image": "drawings/001/images/noisy/rotation_L5/crop_0003.tiff",
+      "gt": "drawings/001/gt/rotation/L5/crop_0003.dxf"
+    },
+    {
+      "id": "001_crop_0004_rotation_L5",
+      "drawing_id": "001",
+      "crop_id": "crop_0004",
+      "noise_type": "rotation",
+      "noise_level": 5,
+      "params": {
+        "angle_deg": 5.0,
+        "note": "Экстремальный, ортогональность нарушена"
+      },
+      "image": "drawings/001/images/noisy/rotation_L5/crop_0004.tiff",
+      "gt": "drawings/001/gt/rotation/L5/crop_0004.dxf"
     }
   ]
 }

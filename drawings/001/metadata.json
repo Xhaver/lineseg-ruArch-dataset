@@ -7,8 +7,8 @@
   "px_per_unit": 118.1102,
   "line_width_px": 2,
   "crop_size_px": 2048,
-  "offset_px": 0,
-  "out_size_px": 2048,
+  "offset_px": 2,
+  "out_size_px": 2052,
   "overlap_px": 256,
   "mode": "grid",
   "full_image_px": [
@@ -50,7 +50,7 @@
       "y0_px": 1792,
       "x1_px": 2048,
       "y1_px": 3840,
-      "n_segments": 780
+      "n_segments": 784
     },
     {
       "id": "crop_0003",
