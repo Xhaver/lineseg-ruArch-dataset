@@ -141,6 +141,7 @@ def menu_make_crops() -> None:
     crop_size = ask("Размер тайла, px", "2048")
     overlap   = ask("Перекрытие, px", "256")
     offset    = ask("Offset (контекстный отступ), px", "0")
+    min_seg   = ask("Минимум сегментов в кропе (0 = не фильтровать)", "10")
 
     dry = ask("\nСначала dry-run (показать параметры без создания файлов)? [y/n]", "y")
     if dry.lower() == "y":
@@ -148,6 +149,7 @@ def menu_make_crops() -> None:
              "--scale", scale, "--units", units,
              "--dpi", dpi, "--crop-size", crop_size,
              "--overlap", overlap, "--offset", offset,
+             "--min-segments", min_seg,
              "--dry-run"])
         confirm = ask("Продолжить и создать файлы? [y/n]", "y")
         if confirm.lower() != "y":
@@ -156,7 +158,8 @@ def menu_make_crops() -> None:
     run([PYTHON, SCRIPT_DIR / "make_crops.py", src,
          "--scale", scale, "--units", units,
          "--dpi", dpi, "--crop-size", crop_size,
-         "--overlap", overlap, "--offset", offset])
+         "--overlap", overlap, "--offset", offset,
+         "--min-segments", min_seg])
 
 
 def menu_add_noise() -> None:
@@ -221,6 +224,7 @@ def menu_full_pipeline() -> None:
     crop_size = ask("Размер тайла, px", "2048")
     overlap   = ask("Перекрытие, px", "256")
     offset    = ask("Offset, px", "0")
+    min_seg   = ask("Минимум сегментов в кропе (0 = не фильтровать)", "10")
     seed      = ask("Random seed", "42")
 
     print("\n--- Шаг 1: препроцессирование DXF ---")
@@ -231,7 +235,8 @@ def menu_full_pipeline() -> None:
     run([PYTHON, SCRIPT_DIR / "make_crops.py", src,
          "--scale", scale, "--units", units,
          "--dpi", dpi, "--crop-size", crop_size,
-         "--overlap", overlap, "--offset", offset], pause=False)
+         "--overlap", overlap, "--offset", offset,
+         "--min-segments", min_seg], pause=False)
 
     # Определяем drawing_id так же, как make_crops.py
     raw_id = src.stem.replace("_geometry_only", "")
@@ -268,6 +273,7 @@ def menu_full_pipeline_all() -> None:
     crop_size = ask("Размер тайла, px", "2048")
     overlap   = ask("Перекрытие, px", "256")
     offset    = ask("Offset, px", "0")
+    min_seg   = ask("Минимум сегментов в кропе (0 = не фильтровать)", "10")
     seed      = ask("Random seed", "42")
 
     confirm = ask(f"\nЗапустить полный пайплайн для {len(sources)} файлов? [y/n]", "y")
@@ -287,7 +293,8 @@ def menu_full_pipeline_all() -> None:
         run([PYTHON, SCRIPT_DIR / "make_crops.py", src,
              "--scale", scale, "--units", units,
              "--dpi", dpi, "--crop-size", crop_size,
-             "--overlap", overlap, "--offset", offset], pause=False)
+             "--overlap", overlap, "--offset", offset,
+             "--min-segments", min_seg], pause=False)
 
         raw_id = src.stem.replace("_geometry_only", "")
         try:

@@ -147,16 +147,17 @@ def liang_barsky(
 # ──────────────────────────────────────────────────────────────────────────────
 
 def make_crops(
-    dxf_path:   Path,
-    units_mm:   float,
-    scale:      float,
-    dpi:        float,
-    crop_size:  int,
-    overlap:    int,
-    offset:     int,
-    line_width: int,
-    output_dir: Optional[Path],
-    dry_run:    bool,
+    dxf_path:     Path,
+    units_mm:     float,
+    scale:        float,
+    dpi:          float,
+    crop_size:    int,
+    overlap:      int,
+    offset:       int,
+    line_width:   int,
+    min_segments: int,
+    output_dir:   Optional[Path],
+    dry_run:      bool,
 ) -> None:
 
     # ── 1. Загрузка ──────────────────────────────────────────────────────────
@@ -234,6 +235,10 @@ def make_crops(
     print(f"    Кроп занимает     : {pct_w:.1f}% ширины / {pct_h:.1f}% высоты листа")
     print()
 
+    if min_segments > 0:
+        print(f"    Мин. сегментов    : {min_segments}  (кропы с меньшим числом пропускаются)")
+        print()
+
     if dry_run:
         print("  [dry-run] Файлы не созданы. Запустите без --dry-run для нарезки.")
         return
@@ -271,6 +276,7 @@ def make_crops(
     # ── 7. Нарезка ───────────────────────────────────────────────────────────
     crops_meta: list[dict] = []
     crop_idx = 0
+    skipped   = 0
 
     print(f"  Нарезка {n_crops} кропов ...")
     for row in range(rows):
@@ -285,26 +291,7 @@ def make_crops(
             rx0, ry0 = x0 - offset, y0 - offset
             rx1, ry1 = x1 + offset, y1 + offset
 
-            # Вырезаем из полного растра (PIL.crop допускает выход за пределы,
-            # заполняя белым)
-            region = img_1bit.crop((rx0, ry0, rx1, ry1))
-            if region.size != (out_size, out_size):
-                padded = Image.new("1", (out_size, out_size), color=1)
-                padded.paste(region, (0, 0))
-                region = padded
-
-            # Сохраняем TIFF CCITT Group 4
-            crop_name = f"crop_{crop_idx:04d}"
-            tiff_path = clean_dir / f"{crop_name}.tiff"
-
-            try:
-                region.save(str(tiff_path), format="TIFF",
-                            compression="group4", dpi=(int(dpi), int(dpi)))
-            except Exception:
-                region.save(str(tiff_path), format="TIFF",
-                            dpi=(int(dpi), int(dpi)))
-
-            # ── GT DXF ───────────────────────────────────────────────────────
+            # ── GT DXF (считаем первым, чтобы применить фильтр --min-segments) ──
             # Координатная система GT DXF: пиксели, Y↑ (DXF-конвенция).
             #
             # Преобразование DXF → полный растр (Y↓, image space):
@@ -312,14 +299,14 @@ def make_crops(
             #   fpy = (y_max  - y_dxf) * px_per_unit    ← Y инвертирован
             #
             # Полный растр → локальные координаты кропа (Y↓):
-            #   lx = fpx - x0
-            #   ly = fpy - y0
+            #   lx = fpx - rx0
+            #   ly = fpy - ry0
             #
             # Локальные (Y↓) → GT DXF (Y↑):
             #   gt_x = lx
-            #   gt_y = crop_size - ly              ← инверсия Y внутри кропа
+            #   gt_y = out_size - ly              ← инверсия Y внутри кропа
             #
-            # Итог: gt_y=0 — нижний край кропа, gt_y=crop_size — верхний.
+            # Итог: gt_y=0 — нижний край кропа, gt_y=out_size — верхний.
             # При открытии в AutoCAD/DXF-вьюере ориентация совпадает с TIFF.
             gt_doc = ezdxf.new("R2010")
             gt_doc.header["$INSUNITS"] = 0  # unitless (пиксели)
@@ -347,6 +334,29 @@ def make_crops(
                 )
                 n_gt += 1
 
+            # Фильтр: пропускаем кропы с недостаточным числом сегментов
+            if n_gt < min_segments:
+                skipped += 1
+                continue
+
+            # ── TIFF CCITT Group 4 ────────────────────────────────────────────
+            crop_name = f"crop_{crop_idx:04d}"
+            tiff_path = clean_dir / f"{crop_name}.tiff"
+
+            region = img_1bit.crop((rx0, ry0, rx1, ry1))
+            if region.size != (out_size, out_size):
+                padded = Image.new("1", (out_size, out_size), color=1)
+                padded.paste(region, (0, 0))
+                region = padded
+
+            try:
+                region.save(str(tiff_path), format="TIFF",
+                            compression="group4", dpi=(int(dpi), int(dpi)))
+            except Exception:
+                region.save(str(tiff_path), format="TIFF",
+                            dpi=(int(dpi), int(dpi)))
+
+            # ── Сохраняем GT ──────────────────────────────────────────────────
             gt_path = gt_dir / f"{crop_name}.dxf"
             gt_doc.saveas(str(gt_path))
 
@@ -388,6 +398,8 @@ def make_crops(
         json.dump(meta, f, indent=2, ensure_ascii=False)
 
     print(f"  Сохранено кропов : {crop_idx}")
+    if skipped:
+        print(f"  Пропущено (< {min_segments} сегм.): {skipped}")
     print(f"  images/clean/    : {clean_dir}")
     print(f"  gt/              : {gt_dir}")
     print(f"  metadata.json    : {meta_path}")
@@ -417,6 +429,9 @@ def main() -> None:
                         help="Контекстный отступ вокруг тайла, px (GT покрывает полный out_size)")
     parser.add_argument("--line-width", type=int,   default=2,
                         help="Толщина линий при растеризации, px")
+    parser.add_argument("--min-segments", type=int, default=10,
+                        help="Минимальное число LINE-сегментов в GT кропа; "
+                             "кропы с меньшим числом пропускаются (0 = отключить)")
     parser.add_argument("--output-dir", type=Path,  default=None,
                         help="Выходная папка (по умолчанию: drawings/{id:03d}/)")
     parser.add_argument("--dry-run", action="store_true",
@@ -433,16 +448,17 @@ def main() -> None:
     print(f"Единицы: {units_label}")
 
     make_crops(
-        dxf_path   = args.dxf,
-        units_mm   = units_mm,
-        scale      = args.scale,
-        dpi        = args.dpi,
-        crop_size  = args.crop_size,
-        overlap    = args.overlap,
-        offset     = args.offset,
-        line_width = args.line_width,
-        output_dir = args.output_dir,
-        dry_run    = args.dry_run,
+        dxf_path     = args.dxf,
+        units_mm     = units_mm,
+        scale        = args.scale,
+        dpi          = args.dpi,
+        crop_size    = args.crop_size,
+        overlap      = args.overlap,
+        offset       = args.offset,
+        line_width   = args.line_width,
+        min_segments = args.min_segments,
+        output_dir   = args.output_dir,
+        dry_run      = args.dry_run,
     )
 
 
