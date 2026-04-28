@@ -378,6 +378,99 @@ def menu_clean() -> None:
     input("\nEnter для возврата...")
 
 
+def menu_yolo() -> None:
+    """7. Сгенерировать YOLO-датасет (prepare_yolo_dataset.py)"""
+    print("\n=== Генерация YOLO-датасета ===")
+    print("Источник: *_full_annotated.dxf из sources/")
+    print("Классы:   0=text (TEXT/MTEXT),  1=dimension (DIMENSION/MULTILEADER)")
+    print()
+
+    sources = sorted((DATASET_DIR / "sources").glob("*_full_annotated.dxf"))
+    if not sources:
+        print("  [!] Нет файлов *_full_annotated.dxf в sources/.")
+        input("\nEnter для возврата...")
+        return
+
+    print(f"Найдено файлов: {len(sources)}")
+    for s in sources:
+        print(f"  - {s.name}")
+
+    scale     = ask("\nМасштаб (знаменатель)", "100")
+    units     = ask("Единицы чертежа", "m")
+    dpi       = ask("DPI", "300")
+    crop_size = ask("Размер кропа, px", "1280")
+    overlap   = ask("Перекрытие, px", "64")
+    min_ann   = ask("Минимум аннотаций в кропе", "1")
+    val_split = ask("Доля val-выборки (0.0–1.0)", "0.2")
+    no_noise  = ask("Только чистые изображения (без шума)? [y/n]", "n")
+    seed      = ask("Random seed", "42")
+
+    cmd = [PYTHON, SCRIPT_DIR / "prepare_yolo_dataset.py",
+           "--scale", scale, "--units", units,
+           "--dpi", dpi, "--crop-size", crop_size,
+           "--overlap", overlap, "--min-annotations", min_ann,
+           "--val-split", val_split, "--seed", seed]
+    if no_noise.lower() == "y":
+        cmd.append("--no-noise")
+
+    run(cmd)
+
+
+def menu_train_yolo() -> None:
+    """8. Обучить YOLO-модель (train_yolo.py)"""
+    print("\n=== Обучение YOLO ===")
+    yolo_data = DATASET_DIR / "yolo_dataset" / "data.yaml"
+    if not yolo_data.exists():
+        print("  [!] yolo_dataset/data.yaml не найден. Сначала запустите пункт 7.")
+        input("\nEnter для возврата...")
+        return
+
+    model   = ask("Базовая модель (yolo11n/s/m.pt)", "yolo11s.pt")
+    epochs  = ask("Эпох", "100")
+    batch   = ask("Batch size", "16")
+    imgsz   = ask("Размер входа, px", "1280")
+    name    = ask("Имя эксперимента", "v1")
+    device  = ask("Устройство (0=GPU, cpu)", "0")
+
+    run([PYTHON, SCRIPT_DIR / "train_yolo.py",
+         "--model", model, "--epochs", epochs,
+         "--batch", batch, "--imgsz", imgsz,
+         "--name", name, "--device", device])
+
+
+def menu_eval_yolo() -> None:
+    """9. Оценить YOLO-модель"""
+    print("\n=== Оценка YOLO-модели ===")
+    models_dir = DATASET_DIR / "models" / "yolo"
+
+    # Найти последнюю обученную модель
+    best_pts = sorted(models_dir.rglob("best.pt")) if models_dir.exists() else []
+    if best_pts:
+        default_model = str(best_pts[-1])
+        print(f"  Найдена модель: {best_pts[-1].relative_to(DATASET_DIR)}")
+    else:
+        default_model = ""
+        print("  [!] best.pt не найден. Сначала запустите обучение (пункт 8).")
+
+    model_path = ask("Путь к модели (.pt)", default_model)
+    if not model_path:
+        input("\nEnter для возврата...")
+        return
+
+    mode = ask("Режим (val / vis / both)", "both")
+    conf = ask("Confidence threshold", "0.25")
+
+    cmd = [PYTHON, SCRIPT_DIR / "eval_yolo.py",
+           "--model", model_path, "--mode", mode, "--conf", conf]
+
+    if mode in ("vis", "both"):
+        source = ask("Папка с PNG для визуализации (Enter = val-сет)", "")
+        if source:
+            cmd += ["--source", source]
+
+    run(cmd)
+
+
 def menu_stats() -> None:
     """5. Статистика датасета"""
     print("\n=== Статистика датасета ===")
@@ -446,6 +539,9 @@ MENU = [
     ("4", "Полный пайплайн — один исходник",                   menu_full_pipeline),
     ("5", "Полный пайплайн — ВСЕ исходники",                   menu_full_pipeline_all),
     ("6", "Статистика датасета",                                menu_stats),
+    ("7", "Сгенерировать YOLO-датасет",                        menu_yolo),
+    ("8", "Обучить YOLO-модель",                               menu_train_yolo),
+    ("9", "Оценить YOLO-модель (метрики + визуализация)",      menu_eval_yolo),
     ("c", "Очистить все сгенерированные данные",                menu_clean),
     ("0", "Выход",                                              None),
 ]

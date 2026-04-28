@@ -396,6 +396,37 @@ def process_file(
                     new_lines.append((p1, p2, attribs))
                 stats["ellipse_segments"] += len(segs)
 
+        elif etype == "INSERT":
+            # INSERT (блок) — перебираем вложенную геометрию через виртуальный layout
+            # Это позволяет извлечь LINE/LWPOLYLINE/ARC/CIRCLE внутри блока
+            # без рекурсии в определение блока (ezdxf разворачивает координаты).
+            try:
+                for virt_entity in entity.virtual_entities():
+                    ve_type = virt_entity.dxftype()
+                    if ve_type == "LINE":
+                        p1 = (virt_entity.dxf.start.x, virt_entity.dxf.start.y)
+                        p2 = (virt_entity.dxf.end.x,   virt_entity.dxf.end.y)
+                        new_lines.append((p1, p2, _attribs(virt_entity)))
+                        stats["line_kept"] += 1
+                    elif ve_type == "LWPOLYLINE":
+                        segs = lwpolyline_to_lines(virt_entity, units_to_px, delta_px)
+                        for p1, p2 in segs:
+                            new_lines.append((p1, p2, attribs))
+                        stats["lwpoly_segments"] += len(segs)
+                    elif ve_type in ("CIRCLE", "ARC", "ELLIPSE"):
+                        fn = {"CIRCLE": circle_to_lines,
+                              "ARC":    arc_to_lines,
+                              "ELLIPSE": ellipse_to_lines}[ve_type]
+                        segs = fn(virt_entity, units_to_px, delta_px, min_radius_px)
+                        if segs:
+                            for p1, p2 in segs:
+                                new_lines.append((p1, p2, attribs))
+                    # Прочие типы внутри блока (TEXT, HATCH, …) игнорируем
+            except Exception:
+                pass  # Некорректный блок — пропускаем
+            to_delete.append(entity)
+            skipped_types["INSERT(exploded)"] = skipped_types.get("INSERT(exploded)", 0) + 1
+
         else:
             to_delete.append(entity)
             stats["skipped_type"] += 1

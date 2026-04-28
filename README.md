@@ -15,7 +15,8 @@
 [Quick start](#quick-start) ·
 [Scripts reference](#scripts-reference) ·
 [manifest.json](#manifestjson-format) ·
-[Adding a drawing](#adding-a-new-drawing)
+[Adding a drawing](#adding-a-new-drawing) ·
+[**Preparing source DXF**](#preparing-source-dxf-files)
 
 Synthetic dataset for research on the influence of line segment clustering algorithms
 (DBSCAN, K-Means, MeanShift) on hybrid vectorization accuracy at various noise levels.
@@ -294,6 +295,119 @@ python scripts/add_noise.py      drawings/00N
 The drawing is assigned ID `00N` automatically and its samples are appended to `manifest.json`.
 
 ---
+
+### Preparing source DXF files
+
+Two types of DXF files are used. Both must be **prepared in CAD before running any scripts**.
+
+---
+
+#### `*_geometry_only.dxf` — vectorization ground truth
+
+This file contains only the structural geometry of the drawing.
+The scripts rasterize it to a binary TIFF and use it as ground truth for line vectorization.
+
+**What to include:**
+
+| Element | Include? | Notes |
+|---|---|---|
+| Walls, slabs, beams | ✅ Yes | Core structural geometry |
+| Doors, windows (geometry) | ✅ Yes | Explode blocks first (see below) |
+| Round columns | ✅ Yes | Leave as CIRCLE — script converts them to LINE segments |
+| Circular staircases | ✅ Yes | Structural, keep |
+| Stair direction arrows | ❌ Remove manually | Annotation symbol, not geometry |
+| Room number symbols (circle + number) | ❌ Remove manually | Small arcs end up as short segments; the number text clutters GT |
+| Sanitary equipment (toilet, sink, bath) | ❌ Remove manually | Complex contours produce false PHT detections |
+| Furniture | ❌ Remove manually | Non-structural noise |
+| Hatching (HATCH) | ❌ Remove manually | Filled regions — script deletes automatically, but cleaner to remove in CAD |
+| Text, dimensions | ❌ Remove manually | Handled separately in `*_full_annotated.dxf` |
+| Title block / stamp | ❌ Remove manually | Not architectural geometry |
+| Sheet frame (A3/A4 border) | ❌ Remove manually | Lines would be falsely detected as walls |
+| Small symbolic circles (< 2 mm on paper) | ❌ Remove manually | Filtered by `--min-radius-mm 2.0`, but removal in CAD is cleaner |
+
+**Preparation steps in AutoCAD / BricsCAD:**
+
+1. **Explode everything to primitives** (`EXPLODE` → repeat until no blocks remain).  
+   *Exception: do NOT explode CIRCLE — AutoCAD cannot decompose circles into arcs.
+   `preprocess_dxf.py` converts CIRCLE → LINE segments automatically.*
+
+2. **Move all geometry to layer `0`** (or keep original layers — the script preserves layer info).
+
+3. **Set color to `ByLayer` or black/white** — color is irrelevant for rasterization, but consistent styling helps visual review.
+
+4. **Delete all non-geometry entities**: TEXT, MTEXT, DIMENSION, HATCH, LEADER, TABLE, viewport frames, etc.
+
+5. **Save as DXF** (version R2010 or later recommended).
+
+6. **Name the file** `N_geometry_only.dxf` and place in `sources/`.
+
+> **Verify:** Run `python scripts/preprocess_dxf.py sources/N_geometry_only.dxf --units m`.  
+> The output should show `INSERT(exploded): 0` or a small number.  
+> If `INSERT: N` is large (> 10) — there are unexploded blocks, go back to step 1.
+
+---
+
+#### `*_full_annotated.dxf` — YOLO detection training data
+
+This file contains the full drawing including all annotations.
+The script extracts bounding boxes for text, dimensions, and tables and generates YOLO labels.
+
+**What to include:**
+
+| Element | Include? | YOLO class | Notes |
+|---|---|---|---|
+| All geometry (walls, doors, etc.) | ✅ Yes | — | Rasterized as background |
+| TEXT, MTEXT | ✅ Yes | `text` (0) | Detected automatically |
+| DIMENSION, MULTILEADER | ✅ Yes | `dimension` (1) | Detected automatically |
+| LEADER (old-style) | ✅ Yes | `dimension` (1) | Detected automatically |
+| Block attributes (ATTRIB) | ✅ Yes | `text` (0) | Explode blocks so ATTRIBs are accessible |
+| Room numbers (circle + digit) | ✅ + manual markup **or** delete | `annotation_region` (2) | Mark the circle region with `YOLO_TABLE`, or simply delete if not worth the effort |
+| Sanitary equipment, furniture | ✅ keep geometry **or** delete | — | Geometry stays as background; no annotation needed. Delete if it creates too much visual noise in crops |
+| Tables (crude line grids with text inside) | ✅ + manual markup | `annotation_region` (2) | Layer `YOLO_TABLE` |
+| Title block / stamp | ✅ + manual markup | `annotation_region` (2) | Layer `YOLO_STAMP` |
+| Sheet frame (A3/A4/… border) | ✅ + manual markup | `annotation_region` (2) | Layer `YOLO_FRAME` |
+| HATCH | ❌ Remove | — | Not used |
+
+**Annotating mask regions (tables, title blocks, sheet frames):**
+
+Three types of regions must be masked before line detection.
+All three use the same approach — draw a bounding LWPOLYLINE on a dedicated layer:
+
+| Region type | Layer name | What it covers |
+|---|---|---|
+| Table (line grid + text) | `YOLO_TABLE` | Room finish schedule, door schedule, any hand-drawn table |
+| Title block / stamp | `YOLO_STAMP` | The lower-right (or lower) stamp with project info, scale, sheet number |
+| Sheet frame | `YOLO_FRAME` | **2 polylines** (outer + inner border) → script auto-computes 4 border strips; or 1 polyline for a simple case |
+
+All three layers map to the same YOLO class `annotation_region` (2).
+The naming distinction is for documentation only; the masking behaviour is identical.
+
+**Markup procedure (same for all three types):**
+
+1. In CAD, create the layer if it does not exist (`YOLO_TABLE`, `YOLO_STAMP`, or `YOLO_FRAME`).
+2. Draw a **closed LWPOLYLINE (rectangle)** that tightly encloses the region.
+3. Move the polyline to the corresponding layer.  
+   It will NOT be rasterized — it is only a bounding-box marker.
+4. Leave the actual content (text, lines, dimensions) on its original layers.
+
+> **Sheet frames:** A typical sheet has two frame rectangles (outer border and inner border with fold marks).
+> Draw one LWPOLYLINE around the outermost border. A single bbox is sufficient.
+>
+> **Title blocks:** Draw the LWPOLYLINE around the entire stamp area including all cells and text.
+> The individual text items inside are also detected as `text` (0) — that is expected and correct.
+
+The script reads all LWPOLYLINE entities on these layers and records them as
+`annotation_region` (class 2) bounding boxes in the YOLO labels.
+
+**Preparation steps:**
+
+1. Start from a complete drawing (all annotations present).
+2. **Explode INSERT blocks** so that ATTRIB text is accessible at modelspace level.
+3. Add `YOLO_TABLE` polylines around table regions (see above).
+4. **Do not** move or rename TEXT/MTEXT/DIMENSION entities — the script reads them directly.
+5. Save as `N_full_annotated.dxf` in `sources/`.
+
+---
 ---
 
 <a name="русский"></a>
@@ -307,7 +421,8 @@ The drawing is assigned ID `00N` automatically and its samples are appended to `
 [Быстрый старт](#быстрый-старт) ·
 [Справочник по скриптам](#справочник-по-скриптам) ·
 [Формат manifest.json](#формат-manifestjson) ·
-[Добавление чертежа](#добавление-нового-чертежа)
+[Добавление чертежа](#добавление-нового-чертежа) ·
+[**Подготовка исходных DXF**](#подготовка-исходных-dxf-файлов)
 
 Синтетический датасет для исследования влияния алгоритмов кластеризации отрезков
 (DBSCAN, K-Means, MeanShift) на точность гибридной векторизации архитектурных чертежей
@@ -584,3 +699,117 @@ python scripts/add_noise.py      drawings/00N
 ```
 
 Чертёж автоматически получит ID `00N`, его сэмплы будут добавлены в `manifest.json`.
+
+---
+
+### Подготовка исходных DXF-файлов
+
+Используются два типа DXF-файлов. Оба **готовятся в CAD до запуска скриптов**.
+
+---
+
+#### `*_geometry_only.dxf` — эталон для векторизации
+
+Содержит только конструктивную геометрию чертежа.
+Скрипты растеризуют его в бинарный TIFF и используют как GT для детектора линий.
+
+**Что включать:**
+
+| Элемент | Включать? | Примечание |
+|---|---|---|
+| Стены, плиты, балки | ✅ Да | Основная геометрия |
+| Двери, окна (геометрия) | ✅ Да | Взорвать блоки (см. ниже) |
+| Круглые колонны | ✅ Да | Оставить как CIRCLE — скрипт аппроксимирует LINE-сегментами |
+| Круговые лестничные клетки | ✅ Да | Конструктив, оставить |
+| Обозначения направления подъёма | ❌ Удалить вручную | Аннотационный символ, не геометрия |
+| Номера помещений (кружок с цифрой) | ❌ Удалить вручную | Дуги кружка дают короткие ложные сегменты; цифра засоряет GT |
+| Сантехника (унитаз, раковина, ванна) | ❌ Удалить вручную | Сложные контуры → ложные детекции PHT |
+| Мебель | ❌ Удалить вручную | Ненесущие элементы, создают шум |
+| Штриховка (HATCH) | ❌ Удалить вручную | Скрипт удаляет автоматически, но чище убрать в CAD |
+| Текст, размеры | ❌ Удалить вручную | Используются только в `*_full_annotated.dxf` |
+| Штамп / основная надпись | ❌ Удалить вручную | Не архитектурная геометрия |
+| Рамка листа (A3/A4) | ❌ Удалить вручную | Линии рамки будут ложно детектированы как стены |
+| Мелкие символьные кружки (< 2 мм на бумаге) | ❌ Удалить вручную | Параметр `--min-radius-mm 2.0` отсекает, но удаление в CAD чище |
+
+**Шаги подготовки в AutoCAD / BricsCAD:**
+
+1. **Взорвать всё до примитивов** (`РАСЧЛЕНИТЬ` / `EXPLODE` — повторять, пока не останется блоков).  
+   *Исключение: CIRCLE (окружность) взрывать не нужно и невозможно в AutoCAD —
+   `preprocess_dxf.py` автоматически преобразует CIRCLE → LINE-сегменты.*
+
+2. **Перенести всю геометрию на слой `0`** (или оставить на исходных слоях — скрипт сохраняет имя слоя).
+
+3. **Установить цвет `ПоСлою` или чёрный/белый** — цвет не влияет на растеризацию, но упрощает визуальный контроль.
+
+4. **Удалить все не-геометрические объекты**: TEXT, MTEXT, DIMENSION, HATCH, LEADER, TABLE, рамки листов и т.д.
+
+5. **Сохранить как DXF** (рекомендуется версия R2010 и новее).
+
+6. **Именовать файл** `N_geometry_only.dxf` и поместить в `sources/`.
+
+> **Проверка:** выполните `python scripts/preprocess_dxf.py sources/N_geometry_only.dxf --units m`.  
+> В выводе должно быть `INSERT(exploded): 0` или небольшое число.  
+> Если `INSERT: N` велико (> 10) — остались невзорванные блоки, вернитесь к шагу 1.
+
+---
+
+#### `*_full_annotated.dxf` — обучающие данные для YOLO
+
+Содержит полный чертёж со всеми аннотациями.
+Скрипт извлекает bounding box для текста, размеров и таблиц и генерирует YOLO-метки.
+
+**Что включать:**
+
+| Элемент | Включать? | Класс YOLO | Примечание |
+|---|---|---|---|
+| Вся геометрия (стены, двери и т.д.) | ✅ Да | — | Растеризуется как фон |
+| TEXT, MTEXT | ✅ Да | `text` (0) | Определяется автоматически |
+| DIMENSION, MULTILEADER | ✅ Да | `dimension` (1) | Определяется автоматически |
+| LEADER (устаревший) | ✅ Да | `dimension` (1) | Определяется автоматически |
+| Атрибуты блоков (ATTRIB) | ✅ Да | `text` (0) | Взорвать блоки, чтобы ATTRIB были в пространстве модели |
+| Номера помещений (кружок + цифра) | ✅ + ручная разметка **или** удалить | `annotation_region` (2) | Разметить полилинией на `YOLO_TABLE`, или просто удалить если мало |
+| Сантехника, мебель | ✅ геометрия или удалить | — | Геометрия остаётся фоном; аннотации не нужны. Удалить если сильно засоряет кропы |
+| Таблицы (сетка из линий с текстом) | ✅ + ручная разметка | `annotation_region` (2) | Слой `YOLO_TABLE` |
+| Штамп чертежа (основная надпись) | ✅ + ручная разметка | `annotation_region` (2) | Слой `YOLO_STAMP` |
+| Рамка листа (A3/A4/… и т.д.) | ✅ + ручная разметка | `annotation_region` (2) | Слой `YOLO_FRAME` |
+| HATCH | ❌ Убрать | — | Не используется |
+
+**Разметка областей для маскирования (таблицы, штамп, рамка):**
+
+Три типа областей должны быть замаскированы перед детекцией линий.
+Все три размечаются одинаково — замкнутой полилинией на именованном слое:
+
+| Тип области | Имя слоя | Что покрывает |
+|---|---|---|
+| Таблица (сетка линий + текст) | `YOLO_TABLE` | Экспликация помещений, ведомость отделки, любая ручная таблица |
+| Штамп / основная надпись | `YOLO_STAMP` | Угловой штамп с данными проекта, масштабом, номером листа |
+| Рамка листа | `YOLO_FRAME` | **2 полилинии** (внешняя + внутренняя) → скрипт сам вычисляет 4 граничные полосы; или 1 полилиния для простого случая |
+
+Все три слоя порождают один и тот же YOLO-класс `annotation_region` (2).
+Разделение по именам слоёв — только для удобства разметки, поведение при маскировании одинаковое.
+
+**Порядок разметки (одинаков для всех трёх типов):**
+
+1. В CAD создайте слой, если он ещё не существует (`YOLO_TABLE`, `YOLO_STAMP` или `YOLO_FRAME`).
+2. **Нарисуйте замкнутую полилинию (ПЛИНИЯ/PLINE)**, плотно охватывающую область.
+3. Перенесите полилинию на соответствующий слой.  
+   Полилиния не растеризуется — она используется только как маркер bounding box.
+4. Содержимое внутри (текст, линии, размеры) оставить на исходных слоях без изменений.
+
+> **Рамка листа:** обычно два прямоугольника (внешняя граница и внутренняя с метками сгиба).
+> Достаточно нарисовать одну полилинию вокруг внешней границы.
+>
+> **Штамп:** охватите полилинией всю область штампа целиком, включая все ячейки и тексты.
+> Отдельные тексты внутри штампа также будут определены как `text` (0) — это ожидаемо и корректно:
+> YOLO будет видеть и общую область, и отдельные текстовые поля.
+
+Скрипт считывает LWPOLYLINE на этих слоях и записывает их как bounding box
+класса `annotation_region` (класс 2) в YOLO-метки.
+
+**Шаги подготовки:**
+
+1. Начинайте с полного чертежа (все аннотации присутствуют).
+2. **Взорвать INSERT-блоки**, чтобы ATTRIB-тексты оказались в пространстве модели.
+3. Добавить полилинии `YOLO_TABLE` вокруг таблиц (см. выше).
+4. **Не перемещать и не переименовывать** TEXT/MTEXT/DIMENSION — скрипт читает их напрямую.
+5. Сохранить как `N_full_annotated.dxf` в `sources/`.

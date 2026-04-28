@@ -1,3 +1,25 @@
-/drawings/*/
-!/drawings/001/
 *.bak
+drawings/
+manifest.json
+yolo_dataset/
+yolo_manifest.json
+*.pyc
+__pycache__/
+.DS_Store
+*.dwl
+*.dwl2
+*.tmp
+
+# Модели и веса
+*.pt
+*.pth
+*.onnx
+models/
+
+# Результаты обучения и оценки
+eval_yolo*/
+runs/
+
+# Логи
+*.log
+.claude/
