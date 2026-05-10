@@ -2,38 +2,36 @@
 """
 preprocess_dxf.py
 
-Приводит все примитивы DXF к набору отдельных LINE-сущностей:
-  - LINE       -> оставляется как есть
-  - LWPOLYLINE -> разбивается на отдельные LINE-сегменты (с обработкой bulge-дуг)
-  - CIRCLE     -> аппроксимируется LINE-сегментами
-  - ARC        -> аппроксимируется LINE-сегментами
-  - ELLIPSE    -> аппроксимируется LINE-сегментами
-  - Прочие     -> удаляются из файла
+Читает DXF из sources/unprocessed_geometry_only/, приводит все примитивы
+к набору отдельных LINE-сущностей и записывает результат в sources/geometry_only/.
+Исходные файлы НЕ изменяются.
 
-После конвертации выполняется пост-проверка: повторный обход modelspace
-гарантирует, что в выходном файле остались исключительно LINE-примитивы.
-Это улавливает штриховки (HATCH), размеры (DIMENSION), тексты (TEXT/MTEXT),
-блоки (INSERT), SPLINE и другие объекты, которые могли не попасть в первый
-проход (например, вложенные или динамически добавленные ezdxf-ом).
+Поддерживаемые примитивы:
+  - LINE        -> сохраняется как есть
+  - LWPOLYLINE  -> разбивается на LINE-сегменты (bulge-дуги — прямые хорды при --skip-curved)
+  - CIRCLE      -> аппроксимируется LINE-сегментами (или пропускается при --skip-curved)
+  - ARC         -> аппроксимируется LINE-сегментами (или пропускается при --skip-curved)
+  - ELLIPSE     -> аппроксимируется LINE-сегментами (или пропускается при --skip-curved)
+  - Прочие      -> удаляются
 
-Цель: GT-файл содержит только LINE-примитивы, каждый из которых прямо
-сопоставим с отрезком, возвращённым детектором (LSD/Hough).
-
-Число сегментов при аппроксимации кривых:
-    delta = R * (1 - cos(theta/2)) < delta_px
-    n >= arc_angle / (2 * arccos(1 - delta_px / R))
+--skip-curved (по умолчанию включён):
+    Пропускает ARC, CIRCLE, ELLIPSE и bulge-сегменты в LWPOLYLINE.
+    Убирает дуги дверей и скруглений из GT-данных.
+    Оставляет только прямолинейную геометрию.
 
 Единицы чертежа:
     $INSUNITS нередко заполнен некорректно. Параметр --units позволяет
     задать единицы явно: mm | cm | m | inch | ft, или число (мм/ед.).
 
 Использование:
-    # Все *_geometry_only.dxf в папке sources/ (по умолчанию)
+    # Все файлы из unprocessed_geometry_only/ -> geometry_only/
     python preprocess_dxf.py --units m
 
-    # Конкретная папка или файл
-    python preprocess_dxf.py path/to/sources/ --units m
-    python preprocess_dxf.py path/to/file.dxf --units m
+    # Конкретный файл
+    python preprocess_dxf.py path/to/file.dxf --units m --output-dir path/to/out/
+
+    # Оставить дуги (старое поведение)
+    python preprocess_dxf.py --units m --no-skip-curved
 """
 from __future__ import annotations
 
@@ -48,6 +46,8 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
 
 import ezdxf
 from ezdxf.document import Drawing
+
+from paths import UNPROCESSED_GEOMETRY_DIR, GEOMETRY_ONLY_DIR
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -154,7 +154,6 @@ def _arc_points(
     start_rad: float, end_rad: float,
     units_to_px: float, delta_px: float,
 ) -> list[tuple[float, float]]:
-    """Общий генератор точек дуги (по часовой или против)."""
     arc_angle = abs(end_rad - start_rad)
     n = n_segments_for_arc(r * units_to_px, arc_angle, delta_px)
     return [
@@ -166,7 +165,7 @@ def _arc_points(
 
 def circle_to_lines(
     entity, units_to_px: float, delta_px: float, min_radius_px: float
-) -> Optional[list[tuple[tuple[float,float], tuple[float,float]]]]:
+) -> Optional[list[tuple[tuple[float, float], tuple[float, float]]]]:
     r = entity.dxf.radius
     if r * units_to_px < min_radius_px:
         return None
@@ -177,7 +176,7 @@ def circle_to_lines(
 
 def arc_to_lines(
     entity, units_to_px: float, delta_px: float, min_radius_px: float
-) -> Optional[list[tuple[tuple[float,float], tuple[float,float]]]]:
+) -> Optional[list[tuple[tuple[float, float], tuple[float, float]]]]:
     r = entity.dxf.radius
     if r * units_to_px < min_radius_px:
         return None
@@ -192,7 +191,7 @@ def arc_to_lines(
 
 def ellipse_to_lines(
     entity, units_to_px: float, delta_px: float, min_radius_px: float
-) -> Optional[list[tuple[tuple[float,float], tuple[float,float]]]]:
+) -> Optional[list[tuple[tuple[float, float], tuple[float, float]]]]:
     major_vec = entity.dxf.major_axis
     ratio     = entity.dxf.ratio
     cx, cy    = entity.dxf.center.x, entity.dxf.center.y
@@ -220,7 +219,7 @@ def ellipse_to_lines(
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# Разбивка LWPOLYLINE -> LINE-сегменты (с обработкой bulge-дуг)
+# Разбивка LWPOLYLINE -> LINE-сегменты
 # ──────────────────────────────────────────────────────────────────────────────
 
 def _bulge_arc_points(
@@ -229,76 +228,59 @@ def _bulge_arc_points(
 ) -> list[tuple[float, float]]:
     """
     Аппроксимирует bulge-дугу между p1 и p2 точками.
-
     Bulge = tan(включённый_угол / 4).
-    Знак: + -> CCW (дуга влево от направления p1->p2),
-           - -> CW  (дуга вправо).
     """
     x1, y1 = p1
     x2, y2 = p2
     chord = math.hypot(x2 - x1, y2 - y1)
     if chord < 1e-12:
         return [p1, p2]
-
-    theta = 4.0 * math.atan(abs(bulge))          # включённый угол, рад
-    r     = chord / (2.0 * math.sin(theta / 2.0)) # радиус
-
-    # Центр дуги
+    theta = 4.0 * math.atan(abs(bulge))
+    r     = chord / (2.0 * math.sin(theta / 2.0))
     mx, my = (x1 + x2) / 2.0, (y1 + y2) / 2.0
     d  = math.sqrt(max(0.0, r * r - (chord / 2.0) ** 2))
-    dx, dy = (x2 - x1) / chord, (y2 - y1) / chord  # единичный вектор хорды
-    nx, ny = -dy, dx                                 # левая нормаль
-
+    dx, dy = (x2 - x1) / chord, (y2 - y1) / chord
+    nx, ny = -dy, dx
     sign = 1.0 if bulge > 0 else -1.0
     cx = mx + sign * d * nx
     cy = my + sign * d * ny
-
     start_rad = math.atan2(y1 - cy, x1 - cx)
     end_rad   = math.atan2(y2 - cy, x2 - cx)
-
-    if bulge > 0:   # CCW: end > start
+    if bulge > 0:
         while end_rad < start_rad:
             end_rad += 2 * math.pi
-    else:           # CW:  end < start
+    else:
         while end_rad > start_rad:
             end_rad -= 2 * math.pi
-
-    arc_angle = abs(end_rad - start_rad)
     return _arc_points(cx, cy, r, start_rad, end_rad, units_to_px, delta_px)
 
 
 def lwpolyline_to_lines(
-    entity, units_to_px: float, delta_px: float
+    entity, units_to_px: float, delta_px: float, skip_curved: bool
 ) -> list[tuple[tuple[float, float], tuple[float, float]]]:
     """
-    Разбивает LWPOLYLINE на отдельные LINE-сегменты.
-    Обрабатывает bulge (дуговые сегменты внутри полилинии).
+    Разбивает LWPOLYLINE на LINE-сегменты.
+    При skip_curved=True bulge-дуги заменяются прямыми хордами.
     """
-    # format="xyb" -> (x, y, bulge)
     raw = list(entity.get_points(format="xyb"))
     n   = len(raw)
     if n < 2:
         return []
-
     indices = list(range(n))
     pairs   = list(zip(indices, indices[1:]))
     if entity.closed:
         pairs.append((n - 1, 0))
-
     segments: list[tuple[tuple[float, float], tuple[float, float]]] = []
-
     for i, j in pairs:
         x1, y1, bulge = raw[i]
         x2, y2, _     = raw[j]
         p1, p2 = (x1, y1), (x2, y2)
-
-        if abs(bulge) < 1e-10:
+        if abs(bulge) < 1e-10 or skip_curved:
             segments.append((p1, p2))
         else:
             pts = _bulge_arc_points(p1, p2, bulge, units_to_px, delta_px)
             for k in range(len(pts) - 1):
                 segments.append((pts[k], pts[k + 1]))
-
     return segments
 
 
@@ -306,15 +288,35 @@ def lwpolyline_to_lines(
 # Обработка одного файла
 # ──────────────────────────────────────────────────────────────────────────────
 
+def _robust_bounds(values: list[float], k: float = 5.0) -> tuple[float, float]:
+    """Return [median - k*MAD, median + k*MAD].
+
+    Uses Median Absolute Deviation — robust up to 50 % outliers,
+    unlike IQR which breaks once >25 % of points are outliers.
+    """
+    if len(values) < 8:
+        return float("-inf"), float("inf")
+    s = sorted(values)
+    n = len(s)
+    median = s[n // 2]
+    deviations = sorted(abs(x - median) for x in s)
+    mad = deviations[n // 2]
+    if mad < 1e-12:
+        return float("-inf"), float("inf")
+    return median - k * mad, median + k * mad
+
+
 def process_file(
-    path: Path,
-    dpi: float,
-    min_radius_mm: float,
-    delta_px: float,
+    src_path:        Path,
+    out_path:        Path,
+    dpi:             float,
+    min_radius_mm:   float,
+    delta_px:        float,
     units_mm_override: Optional[float],
+    skip_curved:     bool,
 ) -> None:
-    print(f"\n[{path.name}]")
-    doc = ezdxf.readfile(str(path))
+    print(f"\n[{src_path.name}]  ->  {out_path}")
+    doc = ezdxf.readfile(str(src_path))
     msp = doc.modelspace()
 
     units_to_mm, units_label = resolve_units(doc, units_mm_override)
@@ -324,8 +326,10 @@ def process_file(
 
     print(f"  Единицы  : {units_label}")
     print(f"  DPI      : {dpi}  ->  1 px = {mm_per_px:.4f} мм")
-    print(f"  min_r    : {min_radius_mm} мм = {min_radius_px:.1f} px")
-    print(f"  delta_px : {delta_px} px")
+    if not skip_curved:
+        print(f"  min_r    : {min_radius_mm} мм = {min_radius_px:.1f} px")
+        print(f"  delta_px : {delta_px} px")
+    print(f"  skip_curved: {skip_curved}")
 
     if units_mm_override is not None:
         correct_insunits = _MM_TO_INSUNITS.get(units_to_mm)
@@ -334,19 +338,22 @@ def process_file(
 
     entities = list(msp)
     to_delete: list = []
-    # (start, end, attribs)
-    new_lines: list[tuple[tuple[float,float], tuple[float,float], dict]] = []
+    new_lines: list[tuple[tuple[float, float], tuple[float, float], dict]] = []
 
     stats: dict[str, int] = {
-        "line_kept":        0,
-        "lwpoly_segments":  0,   # LINE-сегментов из LWPOLYLINE
-        "lwpoly_count":     0,   # сколько LWPOLYLINE обработано
-        "circle_segments":  0,
-        "arc_segments":     0,
-        "ellipse_segments": 0,
-        "skipped_small":    0,
-        "skipped_type":     0,
-        "post_cleanup":     0,   # удалено в пост-проверке
+        "line_kept":          0,
+        "lwpoly_segments":    0,
+        "lwpoly_count":       0,
+        "lwpoly_bulge_chord": 0,   # bulge-сегментов заменено прямыми хордами
+        "circle_segments":    0,
+        "circle_skipped":     0,
+        "arc_segments":       0,
+        "arc_skipped":        0,
+        "ellipse_segments":   0,
+        "ellipse_skipped":    0,
+        "skipped_small":      0,
+        "skipped_type":       0,
+        "post_cleanup":       0,
     }
     skipped_types: dict[str, int] = {}
     post_cleanup_types: dict[str, int] = {}
@@ -360,46 +367,56 @@ def process_file(
 
         elif etype == "LWPOLYLINE":
             to_delete.append(entity)
-            segs = lwpolyline_to_lines(entity, units_to_px, delta_px)
+            raw = list(entity.get_points(format="xyb"))
+            n_bulge = sum(1 for _, _, b in raw if abs(b) >= 1e-10)
+            segs = lwpolyline_to_lines(entity, units_to_px, delta_px, skip_curved)
             for p1, p2 in segs:
                 new_lines.append((p1, p2, attribs))
             stats["lwpoly_count"]    += 1
             stats["lwpoly_segments"] += len(segs)
+            if skip_curved and n_bulge:
+                stats["lwpoly_bulge_chord"] += n_bulge
 
         elif etype == "CIRCLE":
             to_delete.append(entity)
-            segs = circle_to_lines(entity, units_to_px, delta_px, min_radius_px)
-            if segs is None:
-                stats["skipped_small"] += 1
+            if skip_curved:
+                stats["circle_skipped"] += 1
             else:
-                for p1, p2 in segs:
-                    new_lines.append((p1, p2, attribs))
-                stats["circle_segments"] += len(segs)
+                segs = circle_to_lines(entity, units_to_px, delta_px, min_radius_px)
+                if segs is None:
+                    stats["skipped_small"] += 1
+                else:
+                    for p1, p2 in segs:
+                        new_lines.append((p1, p2, attribs))
+                    stats["circle_segments"] += len(segs)
 
         elif etype == "ARC":
             to_delete.append(entity)
-            segs = arc_to_lines(entity, units_to_px, delta_px, min_radius_px)
-            if segs is None:
-                stats["skipped_small"] += 1
+            if skip_curved:
+                stats["arc_skipped"] += 1
             else:
-                for p1, p2 in segs:
-                    new_lines.append((p1, p2, attribs))
-                stats["arc_segments"] += len(segs)
+                segs = arc_to_lines(entity, units_to_px, delta_px, min_radius_px)
+                if segs is None:
+                    stats["skipped_small"] += 1
+                else:
+                    for p1, p2 in segs:
+                        new_lines.append((p1, p2, attribs))
+                    stats["arc_segments"] += len(segs)
 
         elif etype == "ELLIPSE":
             to_delete.append(entity)
-            segs = ellipse_to_lines(entity, units_to_px, delta_px, min_radius_px)
-            if segs is None:
-                stats["skipped_small"] += 1
+            if skip_curved:
+                stats["ellipse_skipped"] += 1
             else:
-                for p1, p2 in segs:
-                    new_lines.append((p1, p2, attribs))
-                stats["ellipse_segments"] += len(segs)
+                segs = ellipse_to_lines(entity, units_to_px, delta_px, min_radius_px)
+                if segs is None:
+                    stats["skipped_small"] += 1
+                else:
+                    for p1, p2 in segs:
+                        new_lines.append((p1, p2, attribs))
+                    stats["ellipse_segments"] += len(segs)
 
         elif etype == "INSERT":
-            # INSERT (блок) — перебираем вложенную геометрию через виртуальный layout
-            # Это позволяет извлечь LINE/LWPOLYLINE/ARC/CIRCLE внутри блока
-            # без рекурсии в определение блока (ezdxf разворачивает координаты).
             try:
                 for virt_entity in entity.virtual_entities():
                     ve_type = virt_entity.dxftype()
@@ -409,11 +426,11 @@ def process_file(
                         new_lines.append((p1, p2, _attribs(virt_entity)))
                         stats["line_kept"] += 1
                     elif ve_type == "LWPOLYLINE":
-                        segs = lwpolyline_to_lines(virt_entity, units_to_px, delta_px)
+                        segs = lwpolyline_to_lines(virt_entity, units_to_px, delta_px, skip_curved)
                         for p1, p2 in segs:
                             new_lines.append((p1, p2, attribs))
                         stats["lwpoly_segments"] += len(segs)
-                    elif ve_type in ("CIRCLE", "ARC", "ELLIPSE"):
+                    elif ve_type in ("CIRCLE", "ARC", "ELLIPSE") and not skip_curved:
                         fn = {"CIRCLE": circle_to_lines,
                               "ARC":    arc_to_lines,
                               "ELLIPSE": ellipse_to_lines}[ve_type]
@@ -421,9 +438,8 @@ def process_file(
                         if segs:
                             for p1, p2 in segs:
                                 new_lines.append((p1, p2, attribs))
-                    # Прочие типы внутри блока (TEXT, HATCH, …) игнорируем
             except Exception:
-                pass  # Некорректный блок — пропускаем
+                pass
             to_delete.append(entity)
             skipped_types["INSERT(exploded)"] = skipped_types.get("INSERT(exploded)", 0) + 1
 
@@ -435,12 +451,44 @@ def process_file(
     for entity in to_delete:
         msp.delete_entity(entity)
 
+    # IQR-фильтрация выбросов (артефакты INSERT-блоков на далёких координатах)
+    all_xs: list[float] = []
+    all_ys: list[float] = []
+    for e in msp:
+        if e.dxftype() == "LINE":
+            all_xs += [e.dxf.start.x, e.dxf.end.x]
+            all_ys += [e.dxf.start.y, e.dxf.end.y]
+    for p1, p2, _ in new_lines:
+        all_xs += [p1[0], p2[0]]
+        all_ys += [p1[1], p2[1]]
+
+    x_lo, x_hi = _robust_bounds(all_xs)
+    y_lo, y_hi = _robust_bounds(all_ys)
+
+    def _in_bounds(x: float, y: float) -> bool:
+        return x_lo <= x <= x_hi and y_lo <= y <= y_hi
+
+    outliers_removed = 0
+    for e in list(msp):
+        if e.dxftype() == "LINE":
+            if not (_in_bounds(e.dxf.start.x, e.dxf.start.y) and
+                    _in_bounds(e.dxf.end.x, e.dxf.end.y)):
+                msp.delete_entity(e)
+                outliers_removed += 1
+                stats["line_kept"] -= 1
+
+    before_new = len(new_lines)
+    new_lines = [(p1, p2, a) for p1, p2, a in new_lines if _in_bounds(*p1) and _in_bounds(*p2)]
+    outliers_removed += before_new - len(new_lines)
+    stats["lwpoly_segments"] -= (before_new - len(new_lines))
+
+    if outliers_removed:
+        print(f"  IQR-выбросы удалены         : {outliers_removed} LINE-сегментов")
+
     for p1, p2, attribs in new_lines:
         msp.add_line(start=p1, end=p2, dxfattribs=attribs)
 
-    # ── Пост-проверка: гарантируем, что в modelspace остались только LINE ──
-    # После конвертации повторно обходим пространство модели и удаляем всё,
-    # что не является LINE: штриховки, блоки, размеры, тексты и т.д.
+    # Пост-проверка: гарантируем только LINE
     for entity in list(msp):
         if entity.dxftype() != "LINE":
             t = entity.dxftype()
@@ -448,10 +496,11 @@ def process_file(
             stats["post_cleanup"] += 1
             msp.delete_entity(entity)
 
-    tmp = path.with_suffix(".tmp.dxf")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = out_path.with_suffix(".tmp.dxf")
     try:
         doc.saveas(str(tmp))
-        tmp.replace(path)
+        tmp.replace(out_path)
     except Exception:
         tmp.unlink(missing_ok=True)
         raise
@@ -464,14 +513,20 @@ def process_file(
     print(f"  LINE  сохранено              : {stats['line_kept']}")
     if stats["lwpoly_count"]:
         print(f"  LWPOLYLINE ({stats['lwpoly_count']} шт.) -> LINE : {stats['lwpoly_segments']}")
-    if stats["circle_segments"]:
-        print(f"  CIRCLE  -> LINE              : {stats['circle_segments']}")
-    if stats["arc_segments"]:
-        print(f"  ARC     -> LINE              : {stats['arc_segments']}")
-    if stats["ellipse_segments"]:
-        print(f"  ELLIPSE -> LINE              : {stats['ellipse_segments']}")
-    if stats["skipped_small"]:
-        print(f"  Пропущено (r < {min_radius_mm} мм)        : {stats['skipped_small']}")
+        if stats["lwpoly_bulge_chord"]:
+            print(f"    в т.ч. bulge -> хорда       : {stats['lwpoly_bulge_chord']}")
+    if skip_curved:
+        total_skipped_curved = stats["arc_skipped"] + stats["circle_skipped"] + stats["ellipse_skipped"]
+        if total_skipped_curved:
+            print(f"  Пропущено кривых (--skip-curved):")
+            if stats["arc_skipped"]:    print(f"    ARC    : {stats['arc_skipped']}")
+            if stats["circle_skipped"]: print(f"    CIRCLE : {stats['circle_skipped']}")
+            if stats["ellipse_skipped"]:print(f"    ELLIPSE: {stats['ellipse_skipped']}")
+    else:
+        if stats["circle_segments"]:  print(f"  CIRCLE  -> LINE              : {stats['circle_segments']}")
+        if stats["arc_segments"]:     print(f"  ARC     -> LINE              : {stats['arc_segments']}")
+        if stats["ellipse_segments"]: print(f"  ELLIPSE -> LINE              : {stats['ellipse_segments']}")
+        if stats["skipped_small"]:    print(f"  Пропущено (r < {min_radius_mm} мм) : {stats['skipped_small']}")
     if skipped_types:
         print(f"  Удалено (не геометрия)       : {stats['skipped_type']}")
         for t, cnt in sorted(skipped_types.items(), key=lambda x: -x[1]):
@@ -489,16 +544,23 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
             "Приводит все примитивы DXF к отдельным LINE-сегментам. "
-            "Изменяет файлы на месте."
+            "Читает из sources/unprocessed_geometry_only/, "
+            "записывает в sources/geometry_only/."
         ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
         "path", type=Path, nargs="?",
         help=(
-            "DXF-файл или папка. "
-            "По умолчанию: папка sources/ рядом со скриптом. "
-            "В папке обрабатываются все *_geometry_only.dxf."
+            "DXF-файл или папка с DXF-файлами. "
+            f"По умолчанию: {UNPROCESSED_GEOMETRY_DIR.name}/"
+        ),
+    )
+    parser.add_argument(
+        "--output-dir", type=Path, default=None, metavar="DIR",
+        help=(
+            "Папка для выходных файлов. "
+            f"По умолчанию: sources/geometry_only/"
         ),
     )
     parser.add_argument(
@@ -506,31 +568,57 @@ def main() -> None:
         help="Единицы чертежа: mm | cm | m | inch | ft или мм/ед. числом.",
     )
     parser.add_argument("--dpi",           type=float, default=300.0)
-    parser.add_argument("--min-radius-mm", type=float, default=2.0)
-    parser.add_argument("--delta-px",      type=float, default=0.5)
+    parser.add_argument("--min-radius-mm", type=float, default=2.0,
+                        help="Минимальный радиус (мм) при --no-skip-curved")
+    parser.add_argument("--delta-px",      type=float, default=0.5,
+                        help="Допуск стрелки хорды (px) при --no-skip-curved")
+    parser.add_argument(
+        "--skip-curved", default=True, action=argparse.BooleanOptionalAction,
+        help="Пропускать ARC, CIRCLE, ELLIPSE и bulge-дуги в LWPOLYLINE (рекомендуется).",
+    )
     args = parser.parse_args()
 
+    # Определяем входные файлы
     if args.path is None:
-        source_dir = Path(__file__).parent.parent / "sources"
-        if not source_dir.is_dir():
-            print(f"Ошибка: папка sources/ не найдена: {source_dir}", file=sys.stderr)
+        src_dir = UNPROCESSED_GEOMETRY_DIR
+        if not src_dir.is_dir():
+            print(f"Ошибка: папка не найдена: {src_dir}", file=sys.stderr)
             sys.exit(1)
-        files = sorted(source_dir.glob("*_geometry_only.dxf"))
+        files = sorted(src_dir.glob("*.dxf"))
     elif args.path.is_dir():
-        files = sorted(args.path.glob("*_geometry_only.dxf"))
+        src_dir = args.path
+        files = sorted(args.path.glob("*.dxf"))
     elif args.path.is_file():
+        src_dir = args.path.parent
         files = [args.path]
     else:
         print(f"Ошибка: путь не найден: {args.path}", file=sys.stderr)
         sys.exit(1)
 
     if not files:
-        print("Файлы *_geometry_only.dxf не найдены.", file=sys.stderr)
+        print(f"DXF-файлы не найдены в: {src_dir}", file=sys.stderr)
         sys.exit(1)
 
+    # Определяем выходную папку
+    out_dir = args.output_dir if args.output_dir else GEOMETRY_ONLY_DIR
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    print(f"Входная папка : {src_dir}")
+    print(f"Выходная папка: {out_dir}")
     print(f"Найдено файлов: {len(files)}")
+    print(f"skip_curved   : {args.skip_curved}")
+
     for f in files:
-        process_file(f, args.dpi, args.min_radius_mm, args.delta_px, args.units)
+        out_path = out_dir / f.name
+        process_file(
+            src_path=f,
+            out_path=out_path,
+            dpi=args.dpi,
+            min_radius_mm=args.min_radius_mm,
+            delta_px=args.delta_px,
+            units_mm_override=args.units,
+            skip_curved=args.skip_curved,
+        )
 
     print("\nГотово.")
 

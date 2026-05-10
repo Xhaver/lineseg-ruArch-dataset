@@ -15,10 +15,10 @@ make_crops.py
 
 Пример:
     # Проверить разрешение перед нарезкой
-    python make_crops.py sources/1_geometry_only.dxf --scale 100 --dry-run
+    python make_crops.py sources/geometry_only/1_geometry_only.dxf --scale 100 --dry-run
 
     # Выполнить нарезку
-    python make_crops.py sources/1_geometry_only.dxf --scale 100
+    python make_crops.py sources/geometry_only/1_geometry_only.dxf --scale 100
 
 Структура вывода:
     drawings/{id:03d}/
@@ -49,6 +49,8 @@ except ImportError:
 
 import ezdxf
 from ezdxf.document import Drawing
+
+from paths import DRAWINGS_DIR, GEOMETRY_ONLY_DIR
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -251,7 +253,7 @@ def make_crops(
         source_id = raw_id                  # нечисловые id оставляем как есть
 
     if output_dir is None:
-        output_dir = dxf_path.parent.parent / "drawings" / source_id
+        output_dir = DRAWINGS_DIR / source_id
     clean_dir = output_dir / "images" / "clean"
     gt_dir    = output_dir / "gt"
     clean_dir.mkdir(parents=True, exist_ok=True)

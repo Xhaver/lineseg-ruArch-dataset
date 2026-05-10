@@ -9,6 +9,7 @@ __pycache__/
 *.dwl
 *.dwl2
 *.tmp
+sources/BACKUP WITH FRAMES/
 
 # Модели и веса
 *.pt

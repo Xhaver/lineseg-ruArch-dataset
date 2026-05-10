@@ -2,6 +2,12 @@
 """
 run.py  —  Интерактивное меню для работы с датасетом.
 
+Структура sources/:
+    full_annotated/              <- исходники с аннотациями (YOLO-разметка)
+    unprocessed_geometry_only/   <- геометрия до preprocess (ввод пользователя)
+    geometry_only/               <- выход preprocess_dxf.py (готово для нарезки)
+    dwg/                         <- оригинальные DWG-файлы
+
 Запуск:
     python scripts/run.py          # из корня Dataset/
     python run.py                  # из папки scripts/
@@ -16,10 +22,13 @@ from pathlib import Path
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[attr-defined]
 
-# Корень датасета: папка, где лежат sources/, drawings/, scripts/
-SCRIPT_DIR  = Path(__file__).parent.resolve()
-DATASET_DIR = SCRIPT_DIR.parent.resolve()
-PYTHON      = sys.executable
+from paths import (
+    DATASET_DIR, SCRIPTS_DIR,
+    FULL_ANNOTATED_DIR, UNPROCESSED_GEOMETRY_DIR, GEOMETRY_ONLY_DIR,
+    DRAWINGS_DIR, MANIFEST_PATH, MODELS_DIR,
+)
+
+PYTHON = sys.executable
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -27,7 +36,6 @@ PYTHON      = sys.executable
 # ──────────────────────────────────────────────────────────────────────────────
 
 def run(cmd: list[str], pause: bool = True) -> None:
-    """Запускает команду и ждёт завершения."""
     print()
     print("$ " + " ".join(str(c) for c in cmd))
     print()
@@ -43,17 +51,15 @@ def ask(prompt: str, default: str = "") -> str:
 
 
 def list_drawings() -> list[Path]:
-    drawings_dir = DATASET_DIR / "drawings"
-    if not drawings_dir.exists():
+    if not DRAWINGS_DIR.exists():
         return []
-    return sorted(drawings_dir.iterdir())
+    return sorted(DRAWINGS_DIR.iterdir())
 
 
-def list_sources() -> list[Path]:
-    sources_dir = DATASET_DIR / "sources"
-    if not sources_dir.exists():
+def list_sources(subdir: Path) -> list[Path]:
+    if not subdir.exists():
         return []
-    return sorted(sources_dir.glob("*_geometry_only.dxf"))
+    return sorted(subdir.glob("*.dxf"))
 
 
 def choose_drawing(prompt: str = "Выберите чертёж") -> Path | None:
@@ -73,10 +79,10 @@ def choose_drawing(prompt: str = "Выберите чертёж") -> Path | None
         return None
 
 
-def choose_source(prompt: str = "Выберите исходный DXF") -> Path | None:
-    sources = list_sources()
+def choose_source(subdir: Path, prompt: str = "Выберите исходный DXF") -> Path | None:
+    sources = list_sources(subdir)
     if not sources:
-        print("  [!] Папка sources/ пуста или нет *_geometry_only.dxf.")
+        print(f"  [!] Нет DXF-файлов в {subdir.relative_to(DATASET_DIR)}.")
         return None
     print(f"\n{prompt}:")
     for i, s in enumerate(sources, 1):
@@ -90,10 +96,9 @@ def choose_source(prompt: str = "Выберите исходный DXF") -> Path
 
 
 def _count_samples(drawing_id: str) -> int:
-    manifest = DATASET_DIR / "manifest.json"
-    if not manifest.exists():
+    if not MANIFEST_PATH.exists():
         return 0
-    with open(manifest, encoding="utf-8") as f:
+    with open(MANIFEST_PATH, encoding="utf-8") as f:
         data = json.load(f)
     return sum(1 for s in data.get("samples", [])
                if s.get("drawing_id") == drawing_id)
@@ -103,34 +108,60 @@ def _count_samples(drawing_id: str) -> int:
 # Пункты меню
 # ──────────────────────────────────────────────────────────────────────────────
 
+def menu_extract_geometry() -> None:
+    """0a. Извлечь геометрию из full_annotated (extract_geometry.py)"""
+    print("\n=== Извлечение геометрии из аннотированных DXF ===")
+    print(f"  Вход : sources/full_annotated/")
+    print(f"  Выход: sources/unprocessed_geometry_only/")
+    print("  Удаляет: TEXT, MTEXT, DIMENSION, LEADER, HATCH, YOLO_TABLE/STAMP")
+    print("  Сохраняет: LINE, LWPOLYLINE, ARC, CIRCLE, ELLIPSE, INSERT")
+    print()
+    sources = list_sources(FULL_ANNOTATED_DIR)
+    if not sources:
+        print(f"  [!] Нет DXF-файлов в {FULL_ANNOTATED_DIR.relative_to(DATASET_DIR)}.")
+        input("\nEnter для возврата...")
+        return
+    print(f"  Найдено: {len(sources)} файлов")
+
+    confirm = ask(f"Перезаписать unprocessed_geometry_only/ для всех {len(sources)} файлов? [y/n]", "y")
+    if confirm.lower() != "y":
+        return
+
+    run([PYTHON, SCRIPTS_DIR / "extract_geometry.py"])
+
+
 def menu_preprocess() -> None:
     """1. Препроцессировать DXF (preprocess_dxf.py)"""
     print("\n=== Препроцессирование DXF ===")
-    print("Разбивает все примитивы (LWPOLYLINE, CIRCLE, ARC, ELLIPSE)")
-    print("на отдельные LINE-сегменты. Изменяет файл источника IN-PLACE.")
+    print(f"  Вход : sources/unprocessed_geometry_only/")
+    print(f"  Выход: sources/geometry_only/")
     print()
-    sources = list_sources()
+    sources = list_sources(UNPROCESSED_GEOMETRY_DIR)
     if not sources:
-        print("  [!] Нет файлов *_geometry_only.dxf в sources/.")
+        print(f"  [!] Нет DXF-файлов в {UNPROCESSED_GEOMETRY_DIR.relative_to(DATASET_DIR)}.")
         input("\nEnter для возврата...")
         return
     print("Будут обработаны файлы:")
     for s in sources:
         print(f"  - {s.name}")
 
-    units = ask("\nЕдиницы чертежа (mm/cm/m/inch/ft)", "m")
-    dpi   = ask("DPI для оценки точности аппроксимации дуг", "300")
+    units       = ask("\nЕдиницы чертежа (mm/cm/m/inch/ft)", "m")
+    dpi         = ask("DPI для оценки точности аппроксимации дуг", "300")
+    skip_curved = ask("Пропустить дуги (ARC/CIRCLE) — рекомендуется [y/n]", "y")
 
-    run([PYTHON, SCRIPT_DIR / "preprocess_dxf.py",
-         DATASET_DIR / "sources",
-         "--units", units,
-         "--dpi", dpi])
+    cmd = [PYTHON, SCRIPTS_DIR / "preprocess_dxf.py",
+           "--units", units, "--dpi", dpi]
+    if skip_curved.lower() != "y":
+        cmd.append("--no-skip-curved")
+
+    run(cmd)
 
 
 def menu_make_crops() -> None:
     """2. Нарезать чертёж на кропы (make_crops.py)"""
     print("\n=== Нарезка чертежа на кропы ===")
-    src = choose_source()
+    print(f"  Источник: sources/geometry_only/")
+    src = choose_source(GEOMETRY_ONLY_DIR)
     if src is None:
         input("\nEnter для возврата...")
         return
@@ -145,7 +176,7 @@ def menu_make_crops() -> None:
 
     dry = ask("\nСначала dry-run (показать параметры без создания файлов)? [y/n]", "y")
     if dry.lower() == "y":
-        run([PYTHON, SCRIPT_DIR / "make_crops.py", src,
+        run([PYTHON, SCRIPTS_DIR / "make_crops.py", src,
              "--scale", scale, "--units", units,
              "--dpi", dpi, "--crop-size", crop_size,
              "--overlap", overlap, "--offset", offset,
@@ -155,7 +186,7 @@ def menu_make_crops() -> None:
         if confirm.lower() != "y":
             return
 
-    run([PYTHON, SCRIPT_DIR / "make_crops.py", src,
+    run([PYTHON, SCRIPTS_DIR / "make_crops.py", src,
          "--scale", scale, "--units", units,
          "--dpi", dpi, "--crop-size", crop_size,
          "--overlap", overlap, "--offset", offset,
@@ -201,7 +232,7 @@ def menu_add_noise() -> None:
     edge_blur = ask("Edge-blur sigma для Гауссова шума", "1.0")
     seed      = ask("Random seed", "42")
 
-    run([PYTHON, SCRIPT_DIR / "add_noise.py", drawing,
+    run([PYTHON, SCRIPTS_DIR / "add_noise.py", drawing,
          *noise_arg, *level_arg,
          "--edge-blur", edge_blur,
          "--seed", seed])
@@ -213,41 +244,52 @@ def menu_full_pipeline() -> None:
     print("Шаги: preprocess_dxf -> make_crops -> add_noise")
     print()
 
-    src = choose_source("Выберите исходный DXF")
+    src = choose_source(UNPROCESSED_GEOMETRY_DIR, "Выберите исходный DXF (unprocessed)")
     if src is None:
         input("\nEnter для возврата...")
         return
 
-    units     = ask("Единицы чертежа", "m")
-    scale     = ask("Масштаб (знаменатель)", "100")
-    dpi       = ask("DPI", "300")
-    crop_size = ask("Размер тайла, px", "2048")
-    overlap   = ask("Перекрытие, px", "256")
-    offset    = ask("Offset, px", "0")
-    min_seg   = ask("Минимум сегментов в кропе (0 = не фильтровать)", "10")
-    seed      = ask("Random seed", "42")
+    units       = ask("Единицы чертежа", "m")
+    scale       = ask("Масштаб (знаменатель)", "100")
+    dpi         = ask("DPI", "300")
+    crop_size   = ask("Размер тайла, px", "2048")
+    overlap     = ask("Перекрытие, px", "256")
+    offset      = ask("Offset, px", "0")
+    min_seg     = ask("Минимум сегментов в кропе (0 = не фильтровать)", "10")
+    seed        = ask("Random seed", "42")
+    skip_curved = ask("Пропустить дуги (ARC/CIRCLE)? [y/n]", "y")
+
+    preprocessed = GEOMETRY_ONLY_DIR / src.name
 
     print("\n--- Шаг 1: препроцессирование DXF ---")
-    run([PYTHON, SCRIPT_DIR / "preprocess_dxf.py", src,
-         "--units", units, "--dpi", dpi], pause=False)
+    preprocess_cmd = [PYTHON, SCRIPTS_DIR / "preprocess_dxf.py", src,
+                      "--units", units, "--dpi", dpi]
+    if skip_curved.lower() != "y":
+        preprocess_cmd.append("--no-skip-curved")
+    run(preprocess_cmd, pause=False)
+
+    if not preprocessed.exists():
+        print(f"\n  [!] Выходной файл не найден: {preprocessed}")
+        print("  Препроцессирование завершилось с ошибкой?")
+        input("Нажмите Enter для возврата в меню...")
+        return
 
     print("\n--- Шаг 2: нарезка на кропы ---")
-    run([PYTHON, SCRIPT_DIR / "make_crops.py", src,
+    run([PYTHON, SCRIPTS_DIR / "make_crops.py", preprocessed,
          "--scale", scale, "--units", units,
          "--dpi", dpi, "--crop-size", crop_size,
          "--overlap", overlap, "--offset", offset,
          "--min-segments", min_seg], pause=False)
 
-    # Определяем drawing_id так же, как make_crops.py
     raw_id = src.stem.replace("_geometry_only", "")
     try:
         drawing_id = f"{int(raw_id):03d}"
     except ValueError:
         drawing_id = raw_id
-    drawing_dir = DATASET_DIR / "drawings" / drawing_id
+    drawing_dir = DRAWINGS_DIR / drawing_id
 
     print("\n--- Шаг 3: генерация шума ---")
-    run([PYTHON, SCRIPT_DIR / "add_noise.py", drawing_dir,
+    run([PYTHON, SCRIPTS_DIR / "add_noise.py", drawing_dir,
          "--seed", seed], pause=False)
 
     input("Нажмите Enter для возврата в меню...")
@@ -256,9 +298,9 @@ def menu_full_pipeline() -> None:
 def menu_full_pipeline_all() -> None:
     """5. Полный пайплайн для ВСЕХ исходников"""
     print("\n=== Полный пайплайн для всех исходников ===")
-    sources = list_sources()
+    sources = list_sources(UNPROCESSED_GEOMETRY_DIR)
     if not sources:
-        print("  [!] Папка sources/ пуста или нет *_geometry_only.dxf.")
+        print(f"  [!] Нет DXF-файлов в {UNPROCESSED_GEOMETRY_DIR.relative_to(DATASET_DIR)}.")
         input("\nEnter для возврата...")
         return
 
@@ -267,14 +309,15 @@ def menu_full_pipeline_all() -> None:
         print(f"  - {s.name}")
     print()
 
-    units     = ask("Единицы чертежа", "m")
-    scale     = ask("Масштаб (знаменатель)", "100")
-    dpi       = ask("DPI", "300")
-    crop_size = ask("Размер тайла, px", "2048")
-    overlap   = ask("Перекрытие, px", "256")
-    offset    = ask("Offset, px", "0")
-    min_seg   = ask("Минимум сегментов в кропе (0 = не фильтровать)", "10")
-    seed      = ask("Random seed", "42")
+    units       = ask("Единицы чертежа", "m")
+    scale       = ask("Масштаб (знаменатель)", "100")
+    dpi         = ask("DPI", "300")
+    crop_size   = ask("Размер тайла, px", "2048")
+    overlap     = ask("Перекрытие, px", "256")
+    offset      = ask("Offset, px", "0")
+    min_seg     = ask("Минимум сегментов в кропе (0 = не фильтровать)", "10")
+    seed        = ask("Random seed", "42")
+    skip_curved = ask("Пропустить дуги (ARC/CIRCLE)? [y/n]", "y")
 
     confirm = ask(f"\nЗапустить полный пайплайн для {len(sources)} файлов? [y/n]", "y")
     if confirm.lower() != "y":
@@ -285,12 +328,21 @@ def menu_full_pipeline_all() -> None:
         print(f"  Исходник {idx}/{len(sources)}: {src.name}")
         print(f"{'='*54}")
 
+        preprocessed = GEOMETRY_ONLY_DIR / src.name
+
         print("\n--- Шаг 1: препроцессирование DXF ---")
-        run([PYTHON, SCRIPT_DIR / "preprocess_dxf.py", src,
-             "--units", units, "--dpi", dpi], pause=False)
+        preprocess_cmd = [PYTHON, SCRIPTS_DIR / "preprocess_dxf.py", src,
+                          "--units", units, "--dpi", dpi]
+        if skip_curved.lower() != "y":
+            preprocess_cmd.append("--no-skip-curved")
+        run(preprocess_cmd, pause=False)
+
+        if not preprocessed.exists():
+            print(f"  [!] Пропускаем нарезку: выходной файл не найден: {preprocessed}")
+            continue
 
         print("\n--- Шаг 2: нарезка на кропы ---")
-        run([PYTHON, SCRIPT_DIR / "make_crops.py", src,
+        run([PYTHON, SCRIPTS_DIR / "make_crops.py", preprocessed,
              "--scale", scale, "--units", units,
              "--dpi", dpi, "--crop-size", crop_size,
              "--overlap", overlap, "--offset", offset,
@@ -301,10 +353,10 @@ def menu_full_pipeline_all() -> None:
             drawing_id = f"{int(raw_id):03d}"
         except ValueError:
             drawing_id = raw_id
-        drawing_dir = DATASET_DIR / "drawings" / drawing_id
+        drawing_dir = DRAWINGS_DIR / drawing_id
 
         print("\n--- Шаг 3: генерация шума ---")
-        run([PYTHON, SCRIPT_DIR / "add_noise.py", drawing_dir,
+        run([PYTHON, SCRIPTS_DIR / "add_noise.py", drawing_dir,
              "--seed", seed], pause=False)
 
     print(f"\n  Обработано исходников: {len(sources)}")
@@ -312,18 +364,15 @@ def menu_full_pipeline_all() -> None:
 
 
 def menu_clean() -> None:
-    """6. Очистить все сгенерированные данные"""
+    """c. Очистить все сгенерированные данные"""
     print("\n=== Очистка сгенерированных данных ===")
-
-    drawings_dir  = DATASET_DIR / "drawings"
-    manifest_path = DATASET_DIR / "manifest.json"
+    print("Очищает: drawings/, manifest.json (не трогает sources/)")
 
     targets = []
-    if drawings_dir.exists():
-        subdirs = sorted(drawings_dir.iterdir())
-        targets += subdirs
-    if manifest_path.exists():
-        targets.append(manifest_path)
+    if DRAWINGS_DIR.exists():
+        targets += sorted(DRAWINGS_DIR.iterdir())
+    if MANIFEST_PATH.exists():
+        targets.append(MANIFEST_PATH)
 
     if not targets:
         print("  Нечего удалять: папка drawings/ и manifest.json отсутствуют.")
@@ -353,23 +402,22 @@ def menu_clean() -> None:
     removed_dirs = 0
     removed_files = 0
 
-    if drawings_dir.exists():
-        for sub in sorted(drawings_dir.iterdir()):
+    if DRAWINGS_DIR.exists():
+        for sub in sorted(DRAWINGS_DIR.iterdir()):
             if sub.is_dir():
                 shutil.rmtree(sub)
                 removed_dirs += 1
             else:
                 sub.unlink()
                 removed_files += 1
-        # Удаляем саму папку drawings/, если пустая
         try:
-            drawings_dir.rmdir()
+            DRAWINGS_DIR.rmdir()
             removed_dirs += 1
         except OSError:
             pass
 
-    if manifest_path.exists():
-        manifest_path.unlink()
+    if MANIFEST_PATH.exists():
+        MANIFEST_PATH.unlink()
         removed_files += 1
 
     print(f"\n  Удалено папок : {removed_dirs}")
@@ -381,13 +429,13 @@ def menu_clean() -> None:
 def menu_yolo() -> None:
     """7. Сгенерировать YOLO-датасет (prepare_yolo_dataset.py)"""
     print("\n=== Генерация YOLO-датасета ===")
-    print("Источник: *_full_annotated.dxf из sources/")
-    print("Классы:   0=text (TEXT/MTEXT),  1=dimension (DIMENSION/MULTILEADER)")
+    print(f"  Источник: sources/full_annotated/")
+    print("  Классы:   0=text (TEXT/MTEXT),  1=dimension (DIMENSION/MULTILEADER)")
     print()
 
-    sources = sorted((DATASET_DIR / "sources").glob("*_full_annotated.dxf"))
+    sources = list_sources(FULL_ANNOTATED_DIR)
     if not sources:
-        print("  [!] Нет файлов *_full_annotated.dxf в sources/.")
+        print(f"  [!] Нет DXF-файлов в {FULL_ANNOTATED_DIR.relative_to(DATASET_DIR)}.")
         input("\nEnter для возврата...")
         return
 
@@ -405,7 +453,7 @@ def menu_yolo() -> None:
     no_noise  = ask("Только чистые изображения (без шума)? [y/n]", "n")
     seed      = ask("Random seed", "42")
 
-    cmd = [PYTHON, SCRIPT_DIR / "prepare_yolo_dataset.py",
+    cmd = [PYTHON, SCRIPTS_DIR / "prepare_yolo_dataset.py",
            "--scale", scale, "--units", units,
            "--dpi", dpi, "--crop-size", crop_size,
            "--overlap", overlap, "--min-annotations", min_ann,
@@ -421,18 +469,18 @@ def menu_train_yolo() -> None:
     print("\n=== Обучение YOLO ===")
     yolo_data = DATASET_DIR / "yolo_dataset" / "data.yaml"
     if not yolo_data.exists():
-        print("  [!] yolo_dataset/data.yaml не найден. Сначала запустите пункт 7.")
+        print("  [!] yolo_dataset/data.yaml не найден. Сначала запустите пункт 8.")
         input("\nEnter для возврата...")
         return
 
     model   = ask("Базовая модель (yolo11n/s/m.pt)", "yolo11s.pt")
     epochs  = ask("Эпох", "100")
-    batch   = ask("Batch size", "16")
+    batch   = ask("Batch size", "8")
     imgsz   = ask("Размер входа, px", "1280")
     name    = ask("Имя эксперимента", "v1")
     device  = ask("Устройство (0=GPU, cpu)", "0")
 
-    run([PYTHON, SCRIPT_DIR / "train_yolo.py",
+    run([PYTHON, SCRIPTS_DIR / "train_yolo.py",
          "--model", model, "--epochs", epochs,
          "--batch", batch, "--imgsz", imgsz,
          "--name", name, "--device", device])
@@ -441,10 +489,8 @@ def menu_train_yolo() -> None:
 def menu_eval_yolo() -> None:
     """9. Оценить YOLO-модель"""
     print("\n=== Оценка YOLO-модели ===")
-    models_dir = DATASET_DIR / "models" / "yolo"
 
-    # Найти последнюю обученную модель
-    best_pts = sorted(models_dir.rglob("best.pt")) if models_dir.exists() else []
+    best_pts = sorted(MODELS_DIR.rglob("best.pt")) if MODELS_DIR.exists() else []
     if best_pts:
         default_model = str(best_pts[-1])
         print(f"  Найдена модель: {best_pts[-1].relative_to(DATASET_DIR)}")
@@ -460,7 +506,7 @@ def menu_eval_yolo() -> None:
     mode = ask("Режим (val / vis / both)", "both")
     conf = ask("Confidence threshold", "0.25")
 
-    cmd = [PYTHON, SCRIPT_DIR / "eval_yolo.py",
+    cmd = [PYTHON, SCRIPTS_DIR / "eval_yolo.py",
            "--model", model_path, "--mode", mode, "--conf", conf]
 
     if mode in ("vis", "both"):
@@ -472,15 +518,14 @@ def menu_eval_yolo() -> None:
 
 
 def menu_stats() -> None:
-    """5. Статистика датасета"""
+    """6. Статистика датасета"""
     print("\n=== Статистика датасета ===")
-    manifest_path = DATASET_DIR / "manifest.json"
-    if not manifest_path.exists():
+    if not MANIFEST_PATH.exists():
         print("  manifest.json не найден. Сначала выполните нарезку и генерацию шума.")
         input("\nEnter для возврата...")
         return
 
-    with open(manifest_path, encoding="utf-8") as f:
+    with open(MANIFEST_PATH, encoding="utf-8") as f:
         m = json.load(f)
 
     samples = m.get("samples", [])
@@ -494,7 +539,7 @@ def menu_stats() -> None:
     print("  По чертежам:")
     for d in drawings:
         n = sum(1 for s in samples if s["drawing_id"] == d)
-        meta_path = DATASET_DIR / "drawings" / d / "metadata.json"
+        meta_path = DRAWINGS_DIR / d / "metadata.json"
         src_name = "?"
         if meta_path.exists():
             with open(meta_path, encoding="utf-8") as f:
@@ -514,7 +559,6 @@ def menu_stats() -> None:
         print(f"    {nt:<20}: {n}")
 
     print()
-    # Проверяем наличие файлов
     missing = 0
     for s in samples:
         img_path = DATASET_DIR / s["image"]
@@ -533,40 +577,47 @@ def menu_stats() -> None:
 # ──────────────────────────────────────────────────────────────────────────────
 
 MENU = [
-    ("1", "Препроцессировать DXF",                             menu_preprocess),
-    ("2", "Нарезать чертёж на кропы",                          menu_make_crops),
-    ("3", "Сгенерировать шумовые варианты",                     menu_add_noise),
-    ("4", "Полный пайплайн — один исходник",                   menu_full_pipeline),
-    ("5", "Полный пайплайн — ВСЕ исходники",                   menu_full_pipeline_all),
-    ("6", "Статистика датасета",                                menu_stats),
-    ("7", "Сгенерировать YOLO-датасет",                        menu_yolo),
-    ("8", "Обучить YOLO-модель",                               menu_train_yolo),
-    ("9", "Оценить YOLO-модель (метрики + визуализация)",      menu_eval_yolo),
-    ("c", "Очистить все сгенерированные данные",                menu_clean),
-    ("0", "Выход",                                              None),
+    ("1",  "Извлечь геометрию  (full_annotated → unprocessed_geometry_only)", menu_extract_geometry),
+    ("2",  "Препроцессировать DXF  (unprocessed → geometry_only)",            menu_preprocess),
+    ("3",  "Нарезать чертёж на кропы  (geometry_only → drawings/)",           menu_make_crops),
+    ("4",  "Сгенерировать шумовые варианты",                                  menu_add_noise),
+    ("5",  "Полный пайплайн — один исходник",                                 menu_full_pipeline),
+    ("6",  "Полный пайплайн — ВСЕ исходники",                                 menu_full_pipeline_all),
+    ("7",  "Статистика датасета",                                              menu_stats),
+    ("8",  "Сгенерировать YOLO-датасет  (full_annotated → yolo_dataset/)",    menu_yolo),
+    ("9",  "Обучить YOLO-модель",                                              menu_train_yolo),
+    ("10", "Оценить YOLO-модель (метрики + визуализация)",                    menu_eval_yolo),
+    ("11", "Очистить сгенерированные данные  (drawings/ + manifest)",          menu_clean),
+    ("q",  "Выход",                                                            None),
 ]
 
 
 def print_menu() -> None:
-    manifest_path = DATASET_DIR / "manifest.json"
     total = 0
-    if manifest_path.exists():
-        with open(manifest_path, encoding="utf-8") as f:
+    if MANIFEST_PATH.exists():
+        with open(MANIFEST_PATH, encoding="utf-8") as f:
             data = json.load(f)
         total     = len(data.get("samples", []))
         n_drawing = len({s["drawing_id"] for s in data.get("samples", [])})
     else:
         n_drawing = 0
 
-    print("\n" + "=" * 54)
+    n_unproc = len(list(UNPROCESSED_GEOMETRY_DIR.glob("*.dxf"))) if UNPROCESSED_GEOMETRY_DIR.exists() else 0
+    n_geom   = len(list(GEOMETRY_ONLY_DIR.glob("*.dxf")))        if GEOMETRY_ONLY_DIR.exists()        else 0
+    n_annot  = len(list(FULL_ANNOTATED_DIR.glob("*.dxf")))       if FULL_ANNOTATED_DIR.exists()       else 0
+
+    print("\n" + "=" * 60)
     print("  Dataset builder — Vectorization research dataset")
-    print("=" * 54)
+    print("=" * 60)
     print(f"  Корень : {DATASET_DIR}")
+    print(f"  sources/unprocessed_geometry_only : {n_unproc} файлов")
+    print(f"  sources/geometry_only             : {n_geom} файлов")
+    print(f"  sources/full_annotated            : {n_annot} файлов")
     print(f"  Чертежей в датасете : {n_drawing}   Сэмплов : {total}")
-    print("=" * 54)
+    print("=" * 60)
     for key, label, _ in MENU:
-        print(f"  {key}.  {label}")
-    print("=" * 54)
+        print(f"  {key:>2}.  {label}")
+    print("=" * 60)
 
 
 def main() -> None:
@@ -576,7 +627,7 @@ def main() -> None:
         for key, _, action in MENU:
             if choice == key:
                 if action is None:
-                    print("Выход.\n")
+                    print("Выход.")
                     sys.exit(0)
                 action()
                 break

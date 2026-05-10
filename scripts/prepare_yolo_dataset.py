@@ -70,6 +70,8 @@ except ImportError:
 SCRIPT_DIR  = Path(__file__).parent.resolve()
 DATASET_DIR = SCRIPT_DIR.parent.resolve()
 
+from paths import FULL_ANNOTATED_DIR, YOLO_DATASET_DIR, YOLO_MANIFEST_PATH  # noqa: E402
+
 # ──────────────────────────────────────────────────────────────────────────────
 # YOLO-классы
 # ──────────────────────────────────────────────────────────────────────────────
@@ -985,7 +987,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    output_dir = args.output_dir or (DATASET_DIR / "yolo_dataset")
+    output_dir = args.output_dir or YOLO_DATASET_DIR
 
     # Список файлов
     if args.source is not None:
@@ -994,10 +996,9 @@ def main() -> None:
             sys.exit(1)
         dxf_files = [args.source]
     else:
-        sources_dir = DATASET_DIR / "sources"
-        dxf_files = sorted(sources_dir.glob("*_full_annotated.dxf"))
+        dxf_files = sorted(FULL_ANNOTATED_DIR.glob("*_full_annotated.dxf"))
         if not dxf_files:
-            print("Файлы *_full_annotated.dxf не найдены.", file=sys.stderr)
+            print(f"Файлы *_full_annotated.dxf не найдены в {FULL_ANNOTATED_DIR}", file=sys.stderr)
             sys.exit(1)
 
     print(f"Файлов: {len(dxf_files)}")
